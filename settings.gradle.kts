@@ -31,3 +31,5 @@ dependencyResolutionManagement {
 
 include(":integration-core")
 include(":androidApp")
+
+include(":features:design:core")
