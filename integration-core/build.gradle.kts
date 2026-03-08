@@ -2,8 +2,7 @@ import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
-    alias(libs.plugins.kotlinMultiplatform)
-    alias(libs.plugins.androidMultiplatformLibrary)
+    id("progressif.multiplatform.module")
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
 }
@@ -11,15 +10,6 @@ plugins {
 kotlin {
     androidLibrary {
         namespace = "com.nikitakrapo.progressif.library"
-        compileSdk = libs.versions.android.compileSdk.get().toInt()
-        
-        compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_11)
-        }
-        
-        androidResources {
-            enable = true
-        }
     }
     
     listOf(
