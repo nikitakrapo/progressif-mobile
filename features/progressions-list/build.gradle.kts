@@ -17,6 +17,7 @@ kotlin {
             implementation(projects.features.design.core)
             implementation(libs.decompose)
             implementation(libs.decompose.extensions.compose)
+            implementation(libs.bundles.mvikotlin)
             implementation(libs.compose.components.resources)
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
