@@ -33,3 +33,5 @@ include(":integration-core")
 include(":androidApp")
 
 include(":features:design:core")
+include(":features:progressions-list")
+include(":features:decompose-extensions")
