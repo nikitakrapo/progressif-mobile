@@ -5,10 +5,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.safeContentPadding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.nikitakrapo.progressif.design.theme.ProgressifTheme
 import com.nikitakrapo.progressif.design.theme.spacing
 
@@ -16,15 +19,17 @@ import com.nikitakrapo.progressif.design.theme.spacing
 fun ProgressionsList(
     component: ProgressionsListComponent,
 ) {
+    val state by component.state.collectAsStateWithLifecycle()
+
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
             .safeContentPadding(),
     ) {
-        items(100) {
+        items(state.items) { progression ->
             ListItem(
                 headlineContent = {
-                    Text("Progression $it")
+                    Text(text = progression.name)
                 },
             )
             Spacer(modifier = Modifier.height(ProgressifTheme.spacing.betweenComponents))

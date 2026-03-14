@@ -15,7 +15,10 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(projects.features.design.core)
+            implementation(projects.features.networkRepositories)
             implementation(projects.features.models)
+            implementation(projects.features.strings)
+            implementation(projects.features.uiCommon)
             implementation(libs.decompose)
             implementation(libs.decompose.extensions.compose)
             implementation(libs.bundles.mvikotlin)

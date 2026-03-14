@@ -9,6 +9,7 @@ kotlin {
     
     sourceSets {
         commonMain.dependencies {
+            api(libs.compose.components.resources)
             implementation(projects.features.models)
             implementation(projects.features.strings)
         }
