@@ -4,7 +4,8 @@ import com.arkivanov.mvikotlin.core.store.Store
 import com.arkivanov.mvikotlin.core.store.StoreFactory
 import com.arkivanov.mvikotlin.extensions.coroutines.coroutineBootstrapper
 import com.arkivanov.mvikotlin.extensions.coroutines.coroutineExecutorFactory
-import com.nikitakrapo.progressf.strings.progressions_list_error
+import com.nikitakrapo.progressf.strings.Res
+import com.nikitakrapo.progressf.strings.progressions_list_error_text
 import com.nikitakrapo.progressif.domain.models.Progression
 import com.nikitakrapo.progressif.domain.models.error.FetchError
 import com.nikitakrapo.progressif.network.repositories.progressions.ProgressionsRepository
@@ -13,7 +14,6 @@ import com.nikitakrapo.progressif.progressions_list.ProgressionsListStore.Label
 import com.nikitakrapo.progressif.strings.Text
 import com.nikitakrapo.progressif.ui.errors.getUserMessage
 import kotlinx.coroutines.launch
-import progressif.features.progressions_list.generated.resources.Res
 
 class ProgressionsListStoreFactory(
     private val storeFactory: StoreFactory,
@@ -60,7 +60,7 @@ class ProgressionsListStoreFactory(
                     )
                     is Msg.ErrorReceived -> copy(
                         isLoading = false,
-                        errorText = Text.StringRes(Res.string.progressions_list_error),
+                        errorText = Text.StringRes(Res.string.progressions_list_error_text),
                     )
                 }
             },

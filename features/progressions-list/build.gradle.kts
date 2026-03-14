@@ -8,13 +8,12 @@ plugins {
 kotlin {
     androidLibrary {
         namespace = "com.nikitakrapo.progressif.progressions_list"
-
-        androidResources.enable = true
     }
     
     sourceSets {
         commonMain.dependencies {
             implementation(projects.features.design.core)
+            implementation(projects.features.design.components)
             implementation(projects.features.networkRepositories)
             implementation(projects.features.models)
             implementation(projects.features.strings)

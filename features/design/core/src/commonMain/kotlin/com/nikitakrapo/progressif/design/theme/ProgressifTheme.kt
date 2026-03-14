@@ -27,6 +27,15 @@ fun ProgressifTheme(
     )
 }
 
+@Composable
+fun PreviewTheme(
+    content: @Composable () -> Unit,
+) {
+    ProgressifTheme {
+        content()
+    }
+}
+
 private val lightScheme = with(Colors) {
     lightColorScheme(
         primary = primaryLight,

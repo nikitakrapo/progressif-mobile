@@ -9,8 +9,6 @@ plugins {
 kotlin {
     androidLibrary {
         namespace = "com.nikitakrapo.progressif.library"
-
-        androidResources.enable = true
     }
     
     listOf(

@@ -3,20 +3,16 @@ plugins {
     id("progressif.multiplatform.compose")
 }
 
-compose.resources {
-    publicResClass = true
-    packageOfResClass = "com.nikitakrapo.progressf.design.core"
-    generateResClass = auto
-}
 
 kotlin {
     androidLibrary {
-        namespace = "com.nikitakrapo.progressif.design.core"
+        namespace = "com.nikitakrapo.progressif.design.components"
     }
 
     sourceSets {
         commonMain.dependencies {
-            api(libs.compose.material3)
+            api(projects.features.design.core)
+            api(projects.features.strings)
             implementation(libs.compose.components.resources)
         }
     }

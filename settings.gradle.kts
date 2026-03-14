@@ -33,6 +33,7 @@ include(":integration-core")
 include(":androidApp")
 
 include(":features:design:core")
+include(":features:design:components")
 include(":features:ui-common")
 include(":features:common")
 include(":features:models")

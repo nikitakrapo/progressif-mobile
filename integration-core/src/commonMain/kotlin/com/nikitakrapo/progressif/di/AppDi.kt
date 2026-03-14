@@ -9,6 +9,7 @@ object AppDi {
             modules(
                 NetworkModule,
                 RepositoriesModule,
+                MviKotlinModule,
             )
         }
     }

@@ -7,8 +7,6 @@ plugins {
 kotlin {
     androidLibrary {
         namespace = "com.nikitakrapo.progressif.decompose_extensions"
-
-        androidResources.enable = true
     }
     
     sourceSets {
