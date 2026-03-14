@@ -6,7 +6,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import com.arkivanov.decompose.extensions.compose.stack.Children
 import com.nikitakrapo.progressif.design.theme.ProgressifTheme
-import com.nikitakrapo.progressif.progressions_list.ProgressionsList
+import com.nikitakrapo.progressif.progressions_list.ProgressionsListScreen
 
 @Composable
 fun App(
@@ -20,7 +20,7 @@ fun App(
                 stack = child,
                 content = { createdChild ->
                     when (val instance = createdChild.instance) {
-                        is AppComponent.Child.ProgressionsList -> ProgressionsList(instance.component)
+                        is AppComponent.Child.ProgressionsList -> ProgressionsListScreen(instance.component)
                     }
                 },
             )
