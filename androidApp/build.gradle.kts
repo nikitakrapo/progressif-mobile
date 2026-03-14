@@ -36,5 +36,6 @@ dependencies {
     implementation(libs.decompose)
     implementation(libs.androidx.activity.compose)
     implementation(libs.compose.uiToolingPreview)
+    implementation(libs.napier)
     debugImplementation(libs.compose.uiTooling)
 }

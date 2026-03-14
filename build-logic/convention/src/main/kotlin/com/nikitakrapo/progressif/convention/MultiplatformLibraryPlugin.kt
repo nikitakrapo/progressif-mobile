@@ -4,10 +4,7 @@ import com.android.build.api.dsl.KotlinMultiplatformAndroidLibraryTarget
 import com.nikitakrapo.progressif.gradle.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.artifacts.VersionCatalogsExtension
-import org.gradle.kotlin.dsl.getByType
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
-import kotlin.text.toInt
 
 class MultiplatformLibraryPlugin : Plugin<Project> {
 
@@ -23,6 +20,10 @@ class MultiplatformLibraryPlugin : Plugin<Project> {
                 iosSimulatorArm64()
 
                 jvmToolchain(17)
+
+                sourceSets.getByName("commonMain").dependencies {
+                    implementation(libs.napier)
+                }
 
                 targets.withType(KotlinMultiplatformAndroidLibraryTarget::class.java).configureEach {
                     val compileSdkStr = libs.versions.android.compileSdk.get()
