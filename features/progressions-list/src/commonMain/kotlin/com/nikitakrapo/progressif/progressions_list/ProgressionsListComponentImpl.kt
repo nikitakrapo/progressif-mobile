@@ -21,4 +21,8 @@ class ProgressionsListComponentImpl(
     ).create()
 
     override val state: StateFlow<ProgressionsListState> = store.stateFlow
+
+    override fun onRefresh() {
+        store.accept(ProgressionsListStore.Intent.Refresh)
+    }
 }

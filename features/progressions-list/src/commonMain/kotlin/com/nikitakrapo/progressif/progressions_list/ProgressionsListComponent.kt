@@ -5,4 +5,6 @@ import kotlinx.coroutines.flow.StateFlow
 interface ProgressionsListComponent {
 
     val state: StateFlow<ProgressionsListState>
+
+    fun onRefresh()
 }

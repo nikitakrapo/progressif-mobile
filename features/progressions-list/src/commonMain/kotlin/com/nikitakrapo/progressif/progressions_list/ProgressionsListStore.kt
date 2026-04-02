@@ -8,6 +8,8 @@ import com.nikitakrapo.progressif.strings.Text
 interface ProgressionsListStore : Store<Intent, ProgressionsListState, Label> {
 
     sealed interface Intent {
+
+        data object Refresh : Intent
     }
 
     sealed interface Label {

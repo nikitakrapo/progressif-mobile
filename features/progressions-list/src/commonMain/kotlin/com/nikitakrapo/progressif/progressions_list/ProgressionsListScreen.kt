@@ -13,6 +13,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.Text
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -33,17 +34,22 @@ fun ProgressionsListScreen(
             .fillMaxSize()
             .systemBarsPadding(),
     ) {
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize(),
+        PullToRefreshBox(
+            isRefreshing = state.isLoading,
+            onRefresh = component::onRefresh,
         ) {
-            items(state.items) { progression ->
-                ListItem(
-                    headlineContent = {
-                        Text(text = progression.name)
-                    },
-                )
-                Spacer(modifier = Modifier.height(ProgressifTheme.spacing.betweenComponents))
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize(),
+            ) {
+                items(state.items) { progression ->
+                    ListItem(
+                        headlineContent = {
+                            Text(text = progression.name)
+                        },
+                    )
+                    Spacer(modifier = Modifier.height(ProgressifTheme.spacing.betweenComponents))
+                }
             }
         }
 

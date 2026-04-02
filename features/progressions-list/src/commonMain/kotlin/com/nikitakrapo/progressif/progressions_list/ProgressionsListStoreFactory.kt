@@ -11,7 +11,7 @@ import com.nikitakrapo.progressif.domain.models.error.FetchError
 import com.nikitakrapo.progressif.network.repositories.progressions.ProgressionsRepository
 import com.nikitakrapo.progressif.progressions_list.ProgressionsListStore.Intent
 import com.nikitakrapo.progressif.progressions_list.ProgressionsListStore.Label
-import com.nikitakrapo.progressif.strings.Text
+import com.nikitakrapo.progressif.strings.Text.StringRes
 import com.nikitakrapo.progressif.ui.errors.getUserMessage
 import kotlinx.coroutines.launch
 
@@ -34,6 +34,12 @@ class ProgressionsListStoreFactory(
                 }
             },
             executorFactory = coroutineExecutorFactory {
+
+                onIntent<Intent.Refresh> {
+                    dispatch(Msg.StartedLoading)
+                    forward(Action.LoadProgressionsList)
+                }
+
                 onAction<Action.LoadProgressionsList> {
                     launch {
                         progressionsRepository.getProgressions()
@@ -60,7 +66,10 @@ class ProgressionsListStoreFactory(
                     )
                     is Msg.ErrorReceived -> copy(
                         isLoading = false,
-                        errorText = Text.StringRes(Res.string.progressions_list_error_text),
+                        errorText = StringRes(Res.string.progressions_list_error_text),
+                    )
+                    Msg.StartedLoading -> copy(
+                        isLoading = true,
                     )
                 }
             },
@@ -72,6 +81,8 @@ class ProgressionsListStoreFactory(
     }
 
     private sealed interface Msg {
+
+        data object StartedLoading : Msg
 
         data class ProgressionsLoaded(val progressions: List<Progression>) : Msg
 
