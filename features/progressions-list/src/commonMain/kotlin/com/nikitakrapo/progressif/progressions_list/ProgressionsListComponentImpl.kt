@@ -25,4 +25,12 @@ class ProgressionsListComponentImpl(
     override fun onRefresh() {
         store.accept(ProgressionsListStore.Intent.Refresh)
     }
+
+    override fun onProgressionClick(index: Int) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onAddProgressionClick() {
+        TODO("Not yet implemented")
+    }
 }

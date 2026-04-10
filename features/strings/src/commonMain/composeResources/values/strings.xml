@@ -9,4 +9,5 @@
     <string name="error_server_message">Server error</string>
 
     <string name="progressions_list_error_text">Error happened, please try again</string>
+    <string name="progressions_list_add_progression">Add progression</string>
 </resources>

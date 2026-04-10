@@ -7,4 +7,8 @@ interface ProgressionsListComponent {
     val state: StateFlow<ProgressionsListState>
 
     fun onRefresh()
+
+    fun onProgressionClick(index: Int)
+
+    fun onAddProgressionClick()
 }

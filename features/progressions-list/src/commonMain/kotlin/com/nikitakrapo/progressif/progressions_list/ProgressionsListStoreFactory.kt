@@ -9,6 +9,8 @@ import com.nikitakrapo.progressf.strings.progressions_list_error_text
 import com.nikitakrapo.progressif.domain.models.Progression
 import com.nikitakrapo.progressif.domain.models.error.FetchError
 import com.nikitakrapo.progressif.network.repositories.progressions.ProgressionsRepository
+import com.nikitakrapo.progressif.progressions_list.ProgressionsListItem.AddProgressionItem
+import com.nikitakrapo.progressif.progressions_list.ProgressionsListItem.ProgressionItem
 import com.nikitakrapo.progressif.progressions_list.ProgressionsListStore.Intent
 import com.nikitakrapo.progressif.progressions_list.ProgressionsListStore.Label
 import com.nikitakrapo.progressif.strings.Text.StringRes
@@ -40,6 +42,14 @@ class ProgressionsListStoreFactory(
                     forward(Action.LoadProgressionsList)
                 }
 
+                onIntent<Intent.ProgressionClick> {
+                    publish(Label.OpenProgressionDetails(it.progression))
+                }
+
+                onIntent<Intent.AddProgressionClick> {
+                    publish(Label.OpenAddProgression)
+                }
+
                 onAction<Action.LoadProgressionsList> {
                     launch {
                         progressionsRepository.getProgressions()
@@ -60,7 +70,11 @@ class ProgressionsListStoreFactory(
             reducer = { msg: Msg ->
                 when (msg) {
                     is Msg.ProgressionsLoaded -> copy(
-                        items = msg.progressions,
+                        items = if (msg.progressions.isEmpty()) {
+                            listOf(AddProgressionItem)
+                        } else {
+                            msg.progressions.map(::ProgressionItem)
+                        },
                         isLoading = false,
                         errorText = null,
                     )
