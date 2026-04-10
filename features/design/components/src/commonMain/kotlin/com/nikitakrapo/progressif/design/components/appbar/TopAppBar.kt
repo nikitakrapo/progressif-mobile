@@ -8,15 +8,14 @@ import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.nikitakrapo.progressf.design.core.arrow_back_24
-import com.nikitakrapo.progressf.design.core.close_24
 import com.nikitakrapo.progressf.strings.close_screen_content_description
 import com.nikitakrapo.progressf.strings.go_back_content_description
 import com.nikitakrapo.progressif.design.icon.Icon
+import com.nikitakrapo.progressif.design.icon.icons
 import com.nikitakrapo.progressif.design.theme.PreviewTheme
+import com.nikitakrapo.progressif.design.theme.ProgressifTheme
 import com.nikitakrapo.progressif.strings.Text
 import androidx.compose.material3.TopAppBar as TopAppBarM3
-import com.nikitakrapo.progressf.design.core.Res as IconRes
 import com.nikitakrapo.progressf.strings.Res as StringRes
 
 @Composable
@@ -81,7 +80,7 @@ sealed interface NavigationButtonConfig {
         override val onClick: () -> Unit,
     ) : NavigationButtonConfig {
 
-        override val icon = Icon.DrawableRes(IconRes.drawable.arrow_back_24)
+        override val icon = Icon.DrawableRes(ProgressifTheme.icons.arrowBack)
 
         override val contentDescription = Text.StringRes(StringRes.string.go_back_content_description)
     }
@@ -90,7 +89,7 @@ sealed interface NavigationButtonConfig {
         override val onClick: () -> Unit,
     ) : NavigationButtonConfig {
 
-        override val icon = Icon.DrawableRes(IconRes.drawable.close_24)
+        override val icon = Icon.DrawableRes(ProgressifTheme.icons.cross)
 
         override val contentDescription = Text.StringRes(StringRes.string.close_screen_content_description)
     }
