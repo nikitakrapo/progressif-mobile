@@ -8,6 +8,7 @@ object AppDi {
         startKoin {
             modules(
                 NetworkModule,
+                AuthModule,
                 RepositoriesModule,
                 MviKotlinModule,
             )

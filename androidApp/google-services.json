@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "671880881478",
+    "project_id": "progressif-c118b",
+    "storage_bucket": "progressif-c118b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:671880881478:android:9e7010201285e856957147",
+        "android_client_info": {
+          "package_name": "com.nikitakrapo.progressif"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAJ9GDj9AtPnBIauphPeDQcws1mI3m_JUk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

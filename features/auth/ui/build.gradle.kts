@@ -8,38 +8,23 @@ plugins {
 
 kotlin {
     androidLibrary {
-        namespace = "com.nikitakrapo.progressif.library"
+        namespace = "com.nikitakrapo.progressif.auth.ui"
     }
     
-    listOf(
-        iosArm64(),
-        iosSimulatorArm64()
-    ).forEach { iosTarget ->
-        iosTarget.binaries.framework {
-            baseName = "ComposeApp"
-            isStatic = true
-        }
-    }
-
     sourceSets {
         commonMain.dependencies {
-            implementation(projects.features.progressionsList)
-            implementation(projects.features.profile)
+            implementation(projects.features.auth.api)
             implementation(projects.features.design.core)
             implementation(projects.features.design.components)
+            implementation(projects.features.common)
+            implementation(projects.features.models)
             implementation(projects.features.strings)
+            implementation(projects.features.uiCommon)
             implementation(projects.features.decomposeExtensions)
-            implementation(projects.features.network)
-            implementation(projects.features.auth.implFirebase)
-            implementation(projects.features.auth.ui)
-            implementation(projects.features.repositories)
-            implementation(projects.features.di)
-            implementation(libs.bundles.decompose)
+            implementation(libs.decompose)
             implementation(libs.decompose.extensions.compose)
             implementation(libs.bundles.mvikotlin)
             implementation(libs.compose.components.resources)
-            implementation(libs.androidx.lifecycle.viewmodelCompose)
-            implementation(libs.androidx.lifecycle.runtimeCompose)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

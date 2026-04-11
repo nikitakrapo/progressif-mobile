@@ -5,27 +5,45 @@ import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.bringToFront
 import com.arkivanov.decompose.router.stack.childStack
+import com.arkivanov.decompose.router.stack.navigate
+import com.arkivanov.essenty.lifecycle.coroutines.coroutineScope
+import com.nikitakrapo.progressif.auth.ui.AuthenticationComponentImpl
+import com.nikitakrapo.progressif.auth.user.User
+import com.nikitakrapo.progressif.auth.user.UserRepository
 import com.nikitakrapo.progressif.decompose.asStateFlow
 import com.nikitakrapo.progressif.di.Di
 import com.nikitakrapo.progressif.profile.ProfileComponentImpl
 import com.nikitakrapo.progressif.progressions_list.ProgressionsListComponentImpl
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
 
 class AppComponentImpl(
     componentContext: ComponentContext,
+    private val userRepository: UserRepository = Di.get(),
 ) : AppComponent, ComponentContext by componentContext {
 
+    private val scope = coroutineScope()
     private val navigation = StackNavigation<Configuration>()
 
-    override val child: StateFlow<ChildStack<*, AppComponent.Child>>
-        = childStack(
-            source = navigation,
-            serializer = Configuration.serializer(),
-            initialConfiguration = Configuration.ProgressionsList,
-            handleBackButton = true,
-            childFactory = ::createChild,
-        ).asStateFlow()
+    init {
+        scope.launch {
+            userRepository.user.collect(::handleUserChanged)
+        }
+    }
+
+    override val child: StateFlow<ChildStack<*, AppComponent.Child>> = childStack(
+        key = "AppComponent",
+        source = navigation,
+        serializer = Configuration.serializer(),
+        initialConfiguration = if (userRepository.user.value != null) {
+            Configuration.ProgressionsList
+        } else {
+            Configuration.Authentication
+        },
+        handleBackButton = true,
+        childFactory = ::createChild,
+    ).asStateFlow()
 
     override fun onProgressionsClick() {
         navigation.bringToFront(Configuration.ProgressionsList)
@@ -35,7 +53,18 @@ class AppComponentImpl(
         navigation.bringToFront(Configuration.Profile)
     }
 
-    private fun createChild(config: Configuration, componentContext: ComponentContext): AppComponent.Child =
+    private fun handleUserChanged(user: User?) {
+        if (user == null) {
+            navigation.navigate { listOf(Configuration.Authentication) }
+        } else if (!child.value.items.all { it.configuration is Configuration.Authentication }) {
+            navigation.navigate { listOf(Configuration.ProgressionsList) }
+        }
+    }
+
+    private fun createChild(
+        config: Configuration,
+        componentContext: ComponentContext
+    ): AppComponent.Child =
         when (config) {
             Configuration.ProgressionsList -> AppComponent.Child.ProgressionsList(
                 ProgressionsListComponentImpl(
@@ -44,10 +73,17 @@ class AppComponentImpl(
                     progressionsRepository = Di.get(),
                 )
             )
+
             Configuration.Profile -> AppComponent.Child.Profile(
                 ProfileComponentImpl(
                     componentContext = componentContext,
                     storeFactory = Di.get(),
+                )
+            )
+
+            Configuration.Authentication -> AppComponent.Child.Authentication(
+                AuthenticationComponentImpl(
+                    componentContext = componentContext,
                 )
             )
         }
@@ -60,5 +96,8 @@ class AppComponentImpl(
 
         @Serializable
         data object Profile : Configuration
+
+        @Serializable
+        data object Authentication : Configuration
     }
 }
