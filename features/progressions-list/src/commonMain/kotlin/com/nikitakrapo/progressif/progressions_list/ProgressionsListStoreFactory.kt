@@ -8,7 +8,7 @@ import com.nikitakrapo.progressf.strings.Res
 import com.nikitakrapo.progressf.strings.progressions_list_error_text
 import com.nikitakrapo.progressif.domain.models.Progression
 import com.nikitakrapo.progressif.domain.models.error.FetchError
-import com.nikitakrapo.progressif.network.repositories.progressions.ProgressionsRepository
+import com.nikitakrapo.progressif.repositories.progressions.ProgressionsRepository
 import com.nikitakrapo.progressif.progressions_list.ProgressionsListItem.AddProgressionItem
 import com.nikitakrapo.progressif.progressions_list.ProgressionsListItem.ProgressionItem
 import com.nikitakrapo.progressif.progressions_list.ProgressionsListStore.Intent

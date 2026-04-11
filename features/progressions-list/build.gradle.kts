@@ -14,7 +14,7 @@ kotlin {
         commonMain.dependencies {
             implementation(projects.features.design.core)
             implementation(projects.features.design.components)
-            implementation(projects.features.networkRepositories)
+            implementation(projects.features.repositories)
             implementation(projects.features.models)
             implementation(projects.features.strings)
             implementation(projects.features.uiCommon)

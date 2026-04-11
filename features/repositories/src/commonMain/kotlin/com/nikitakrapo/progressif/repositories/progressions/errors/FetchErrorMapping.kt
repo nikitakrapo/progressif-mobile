@@ -1,4 +1,4 @@
-package com.nikitakrapo.progressif.network.repositories.progressions.errors
+package com.nikitakrapo.progressif.repositories.progressions.errors
 
 import com.nikitakrapo.progressif.domain.models.error.FetchError
 import com.nikitakrapo.progressif.network.NetworkError

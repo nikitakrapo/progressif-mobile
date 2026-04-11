@@ -20,7 +20,7 @@ kotlin {
             isStatic = true
         }
     }
-    
+
     sourceSets {
         commonMain.dependencies {
             implementation(projects.features.progressionsList)
@@ -30,7 +30,7 @@ kotlin {
             implementation(projects.features.strings)
             implementation(projects.features.decomposeExtensions)
             implementation(projects.features.network)
-            implementation(projects.features.networkRepositories)
+            implementation(projects.features.repositories)
             implementation(projects.features.di)
             implementation(libs.decompose)
             implementation(libs.decompose.extensions.compose)

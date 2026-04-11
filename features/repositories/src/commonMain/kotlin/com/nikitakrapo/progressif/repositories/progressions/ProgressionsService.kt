@@ -1,4 +1,4 @@
-package com.nikitakrapo.progressif.network.repositories.progressions
+package com.nikitakrapo.progressif.repositories.progressions
 
 import com.nikitakrapo.progressif.network.NetworkError
 import com.nikitakrapo.progressif.network.safeRequest

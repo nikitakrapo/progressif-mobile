@@ -1,4 +1,4 @@
-package com.nikitakrapo.progressif.network.repositories.progressions
+package com.nikitakrapo.progressif.repositories.progressions
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

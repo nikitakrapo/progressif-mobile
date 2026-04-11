@@ -5,7 +5,7 @@ package com.nikitakrapo.progressif.progressions_list
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.mvikotlin.core.store.StoreFactory
 import com.arkivanov.mvikotlin.extensions.coroutines.stateFlow
-import com.nikitakrapo.progressif.network.repositories.progressions.ProgressionsRepository
+import com.nikitakrapo.progressif.repositories.progressions.ProgressionsRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.StateFlow
 

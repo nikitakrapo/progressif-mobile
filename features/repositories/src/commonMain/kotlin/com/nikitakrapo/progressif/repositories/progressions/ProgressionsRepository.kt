@@ -1,8 +1,8 @@
-package com.nikitakrapo.progressif.network.repositories.progressions
+package com.nikitakrapo.progressif.repositories.progressions
 
 import com.nikitakrapo.progressif.domain.models.Progression
 import com.nikitakrapo.progressif.domain.models.error.FetchError
-import com.nikitakrapo.progressif.network.repositories.progressions.errors.toFetchError
+import com.nikitakrapo.progressif.repositories.progressions.errors.toFetchError
 import com.nikitakrapo.progressif.result.Result
 import io.ktor.client.HttpClient
 import kotlinx.coroutines.delay
