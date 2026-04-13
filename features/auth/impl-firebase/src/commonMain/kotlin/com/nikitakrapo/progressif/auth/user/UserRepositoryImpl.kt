@@ -1,9 +1,8 @@
 package com.nikitakrapo.progressif.auth.user
 
+import com.nikitakrapo.progressif.firebase.auth.FirebaseAuth
+import com.nikitakrapo.progressif.firebase.auth.errors.FirebaseAuthWeakPasswordException
 import com.nikitakrapo.progressif.result.Result
-import dev.gitlive.firebase.Firebase
-import dev.gitlive.firebase.auth.FirebaseAuthWeakPasswordException
-import dev.gitlive.firebase.auth.auth
 import io.github.aakira.napier.Napier
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -16,20 +15,20 @@ class UserRepositoryImpl : UserRepository {
 
     private val scope = CoroutineScope(Dispatchers.Default)
 
-    private val auth by lazy { Firebase.auth }
+    private val auth by lazy { FirebaseAuth }
 
-    override val user: StateFlow<User?> = auth.authStateChanged
+    override val user: StateFlow<User?> = auth.userFlow
         .map { it.toUser() }
         .stateIn(
             scope = scope,
             started = SharingStarted.Eagerly,
-            initialValue = auth.currentUser.toUser(),
+            initialValue = auth.user.toUser(),
         )
 
     override suspend fun signUp(email: String, password: String): Result<Unit, SignUpError> {
         return try {
-            val result = auth.createUserWithEmailAndPassword(email, password)
-            if (result.user != null) {
+            val user = auth.createUserWithEmailAndPassword(email, password)
+            if (user != null) {
                 Result.Success(Unit)
             } else {
                 Result.Failure(SignUpError.Unknown)
@@ -44,8 +43,8 @@ class UserRepositoryImpl : UserRepository {
 
     override suspend fun signIn(email: String, password: String): Result<Unit, SignInError> {
         return try {
-            val result = auth.signInWithEmailAndPassword(email, password)
-            if (result.user != null) {
+            val user = auth.signInWithEmailAndPassword(email, password)
+            if (user != null) {
                 Result.Success(Unit)
             } else {
                 Result.Failure(SignInError.Unknown)

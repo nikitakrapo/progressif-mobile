@@ -1,6 +1,6 @@
 package com.nikitakrapo.progressif.auth.user
 
-import dev.gitlive.firebase.auth.FirebaseUser
+import com.nikitakrapo.progressif.firebase.auth.user.FirebaseUser
 
 internal fun FirebaseUser?.toUser(): User? {
     if (this == null) {

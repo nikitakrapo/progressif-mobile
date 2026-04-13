@@ -21,6 +21,7 @@ import kotlinx.serialization.Serializable
 class AppComponentImpl(
     componentContext: ComponentContext,
     private val userRepository: UserRepository = Di.get(),
+
 ) : AppComponent, ComponentContext by componentContext {
 
     private val scope = coroutineScope()

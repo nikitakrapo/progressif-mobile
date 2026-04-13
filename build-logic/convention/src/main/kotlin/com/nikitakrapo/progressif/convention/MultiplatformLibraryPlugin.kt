@@ -32,6 +32,8 @@ class MultiplatformLibraryPlugin : Plugin<Project> {
                     compileSdk = compileSdkStr.toInt()
                     minSdk = minSdkStr.toInt()
                 }
+
+                compilerOptions.freeCompilerArgs.add("-Xskip-prerelease-check")
             }
         }
     }
