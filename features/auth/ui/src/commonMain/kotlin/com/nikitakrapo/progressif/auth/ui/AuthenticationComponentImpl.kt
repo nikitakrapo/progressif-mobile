@@ -3,6 +3,7 @@ package com.nikitakrapo.progressif.auth.ui
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
+import com.arkivanov.decompose.router.stack.bringToFront
 import com.arkivanov.decompose.router.stack.childStack
 import com.nikitakrapo.progressif.auth.ui.AuthenticationComponent.Child
 import com.nikitakrapo.progressif.auth.ui.landing.AuthLandingComponentImpl
@@ -29,9 +30,20 @@ class AuthenticationComponentImpl(
 
     private fun createChild(config: Configuration, componentContext: ComponentContext): Child =
         when (config) {
-            Configuration.Landing -> Child.Landing(AuthLandingComponentImpl(componentContext))
-            Configuration.SignIn -> Child.SignIn(SignInComponentImpl(componentContext))
-            Configuration.SignUp -> Child.SignUp(SignUpComponentImpl(componentContext))
+            Configuration.Landing -> {
+                val component = AuthLandingComponentImpl(
+                    componentContext = componentContext,
+                    openLogin = { navigation.bringToFront(Configuration.SignIn) },
+                    openRegistration = { navigation.bringToFront(Configuration.SignUp) },
+                )
+                Child.Landing(component)
+            }
+            Configuration.SignIn -> {
+                Child.SignIn(SignInComponentImpl(componentContext))
+            }
+            Configuration.SignUp -> {
+                Child.SignUp(SignUpComponentImpl(componentContext))
+            }
         }
 
     @Serializable

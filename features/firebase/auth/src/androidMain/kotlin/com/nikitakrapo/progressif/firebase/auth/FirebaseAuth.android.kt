@@ -1,6 +1,7 @@
 package com.nikitakrapo.progressif.firebase.auth
 
 import com.nikitakrapo.progressif.firebase.auth.errors.FirebaseAuthException
+import com.nikitakrapo.progressif.firebase.auth.errors.FirebaseAuthInvalidCredentialsException
 import com.nikitakrapo.progressif.firebase.auth.errors.FirebaseAuthWeakPasswordException
 import com.nikitakrapo.progressif.firebase.auth.user.FirebaseUser
 import com.nikitakrapo.progressif.firebase.auth.user.toFirebaseUser
@@ -8,6 +9,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.tasks.await
 import com.google.firebase.auth.FirebaseAuth as AndroidFirebaseAuth
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException as AndroidFirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException as AndroidFirebaseAuthWeakPasswordException
 
 actual object FirebaseAuth {
@@ -44,6 +46,8 @@ actual object FirebaseAuth {
                 .await()
                 .user
                 ?.toFirebaseUser()
+        } catch (e: AndroidFirebaseAuthInvalidCredentialsException) {
+            throw FirebaseAuthInvalidCredentialsException(e.message)
         } catch (e: Exception) {
             throw FirebaseAuthException(e.message)
         }

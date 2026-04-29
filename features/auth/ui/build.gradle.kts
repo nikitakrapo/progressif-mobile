@@ -20,6 +20,7 @@ kotlin {
             implementation(projects.features.models)
             implementation(projects.features.strings)
             implementation(projects.features.uiCommon)
+            implementation(projects.features.di)
             implementation(projects.features.decomposeExtensions)
             implementation(libs.decompose)
             implementation(libs.decompose.extensions.compose)
