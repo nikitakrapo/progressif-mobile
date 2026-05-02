@@ -40,7 +40,7 @@ class AppComponentImpl(
         initialConfiguration = if (userRepository.user.value != null) {
             Configuration.ProgressionsList
         } else {
-            Configuration.ProgressionsList
+            Configuration.Authentication
         },
         handleBackButton = true,
         childFactory = ::createChild,
