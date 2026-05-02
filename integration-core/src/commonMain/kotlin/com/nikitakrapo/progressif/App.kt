@@ -1,11 +1,12 @@
 package com.nikitakrapo.progressif
 
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.extensions.compose.stack.Children
 import com.nikitakrapo.progressf.strings.bottom_bar_item_profile
@@ -29,7 +30,7 @@ fun App(
         Surface(
             color = ProgressifTheme.colorScheme.background,
         ) {
-            Column(
+            Box(
                 modifier = Modifier
                     .fillMaxSize(),
             ) {
@@ -52,8 +53,6 @@ fun App(
                             )
                         }
                     },
-                    modifier = Modifier
-                        .weight(1f),
                 )
 
                 if (child.active.instance.showBottomBar) {
@@ -72,6 +71,8 @@ fun App(
                                 selected = child.active.instance is AppComponent.Child.Profile,
                             ),
                         ),
+                        modifier = Modifier
+                            .align(Alignment.BottomCenter),
                     )
                 }
             }

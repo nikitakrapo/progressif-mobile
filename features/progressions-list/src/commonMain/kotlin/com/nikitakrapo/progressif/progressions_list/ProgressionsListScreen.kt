@@ -23,10 +23,12 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.nikitakrapo.progressf.strings.Res
 import com.nikitakrapo.progressf.strings.progressions_list_add_progression
+import com.nikitakrapo.progressif.design.components.bottombar.BottomBarPadding
 import com.nikitakrapo.progressif.design.components.errors.ErrorContent
 import com.nikitakrapo.progressif.design.components.loading.LinearProgressBar
 import com.nikitakrapo.progressif.design.theme.ProgressifTheme
 import com.nikitakrapo.progressif.design.theme.spacing
+import com.nikitakrapo.progressif.design.utils.padding.plus
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -48,7 +50,7 @@ fun ProgressionsListScreen(
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize(),
-                contentPadding = PaddingValues(ProgressifTheme.spacing.screen)
+                contentPadding = PaddingValues(ProgressifTheme.spacing.screen) + BottomBarPadding()
             ) {
                 itemsIndexed(state.items) { index, item ->
                     when (item) {
