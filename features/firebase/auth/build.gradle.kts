@@ -1,6 +1,9 @@
+@file:OptIn(ExperimentalKotlinGradlePluginApi::class)
+
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+
 plugins {
     id("progressif.multiplatform.module")
-    kotlin("native.cocoapods")
 }
 
 kotlin {
@@ -15,6 +18,16 @@ kotlin {
         freeCompilerArgs.add("-Xexplicit-backing-fields")
     }
 
+    swiftPMDependencies {
+        swiftPackage(
+            url = url("https://github.com/firebase/firebase-ios-sdk.git"),
+            version = from(libs.versions.firebase.ios.get()),
+            products = listOf(
+                product("FirebaseAuth")
+            ),
+        )
+    }
+
     sourceSets {
         commonMain.dependencies {
             api(projects.features.auth.api)
@@ -26,18 +39,6 @@ kotlin {
         androidMain.dependencies {
             implementation(project.dependencies.platform(libs.firebase.bom))
             implementation(libs.firebase.auth)
-        }
-
-        // TODO https://kotlinlang.org/docs/multiplatform/multiplatform-spm-import.html#configure-the-build: migrate to SPM
-        cocoapods {
-            name = "AuthImplFirebase"
-            version = "1.0"
-
-            ios.deploymentTarget = "14.1"
-
-            pod("FirebaseAuth") {
-                version = "~> 12.12.0"
-            }
         }
     }
 }
