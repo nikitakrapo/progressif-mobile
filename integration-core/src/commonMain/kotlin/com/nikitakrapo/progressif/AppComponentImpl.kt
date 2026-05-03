@@ -79,6 +79,7 @@ class AppComponentImpl(
                 ProfileComponentImpl(
                     componentContext = componentContext,
                     storeFactory = Di.get(),
+                    userRepository = Di.get(),
                 )
             )
 

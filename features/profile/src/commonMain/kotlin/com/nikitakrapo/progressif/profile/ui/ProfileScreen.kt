@@ -1,9 +1,12 @@
 package com.nikitakrapo.progressif.profile.ui
 
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -15,6 +18,7 @@ import com.nikitakrapo.progressf.strings.profile_logout_dialog_text
 import com.nikitakrapo.progressf.strings.profile_logout_dialog_title
 import com.nikitakrapo.progressif.design.components.screen.ScreenScaffold
 import com.nikitakrapo.progressif.profile.ProfileComponent
+import com.nikitakrapo.progressif.profile.ProfileSection
 import com.nikitakrapo.progressif.profile.ProfileStore
 import org.jetbrains.compose.resources.stringResource
 
@@ -28,7 +32,21 @@ fun ProfileScreen(
 
     ScreenScaffold(
         snackbarHostState = snackbarHostState,
-        content = {},
+        content = { paddingValues ->
+            LazyColumn(contentPadding = paddingValues) {
+                items(state.sections) { section ->
+                    when (section) {
+                        is ProfileSection.Header -> ProfileHeader(displayName = section.displayName)
+                        is ProfileSection.Button -> {
+                            val label = section.label.resolve()
+                            TextButton(onClick = { component.accept(section.intent) }) {
+                                Text(text = label)
+                            }
+                        }
+                    }
+                }
+            }
+        },
     )
 
     if (state.isLogoutConfirmationShown) {

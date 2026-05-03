@@ -18,6 +18,8 @@ kotlin {
             implementation(projects.features.models)
             implementation(projects.features.strings)
             implementation(projects.features.uiCommon)
+            implementation(projects.features.auth.api)
+            implementation(projects.features.di)
             implementation(libs.decompose)
             implementation(libs.decompose.extensions.compose)
             implementation(libs.bundles.mvikotlin)
