@@ -18,7 +18,7 @@ class ProfileComponentImpl(
 
     override val state: StateFlow<ProfileState> = store.stateFlow
 
-    override fun onRefresh() {
-        store.accept(ProfileStore.Intent.Refresh)
+    override fun accept(intent: ProfileStore.Intent) {
+        store.accept(intent)
     }
 }
