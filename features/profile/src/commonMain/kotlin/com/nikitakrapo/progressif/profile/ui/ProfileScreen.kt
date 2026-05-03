@@ -55,10 +55,14 @@ fun ProfileScreen(
                 component.accept(ProfileStore.Intent.DismissLogoutConfirmation)
             },
             confirmButton = {
-                Text(text = stringResource(Res.string.profile_logout_confirm_text))
+                TextButton(onClick = { component.accept(ProfileStore.Intent.AcceptLogoutConfirmation) }) {
+                    Text(text = stringResource(Res.string.profile_logout_confirm_text))
+                }
             },
             dismissButton = {
-                Text(text = stringResource(Res.string.common_cancel))
+                TextButton(onClick = { component.accept(ProfileStore.Intent.DismissLogoutConfirmation) }) {
+                    Text(text = stringResource(Res.string.common_cancel))
+                }
             },
             title = {
                 Text(text = stringResource(Res.string.profile_logout_dialog_title))
