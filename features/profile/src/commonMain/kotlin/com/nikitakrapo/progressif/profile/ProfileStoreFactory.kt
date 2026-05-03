@@ -6,7 +6,9 @@ import com.arkivanov.mvikotlin.extensions.coroutines.coroutineExecutorFactory
 import com.nikitakrapo.progressif.auth.user.User
 import com.nikitakrapo.progressif.auth.user.UserRepository
 import com.nikitakrapo.progressf.strings.Res
+import com.nikitakrapo.progressf.strings.common_error_unknown
 import com.nikitakrapo.progressf.strings.profile_logout_item_text
+import com.nikitakrapo.progressif.profile.ProfileStore.Label
 import com.nikitakrapo.progressif.strings.Text
 import kotlinx.coroutines.launch
 
@@ -33,7 +35,14 @@ class ProfileStoreFactory(
                 onIntent<ProfileStore.Intent.AcceptLogoutConfirmation> {
                     dispatch(Msg.DismissLogoutConfirmation)
                     launch {
-                        userRepository.logout()
+                        val result = userRepository.logout()
+                        result.fold(
+                            onFailure = {
+                                val snackbar = Text.StringRes(Res.string.common_error_unknown)
+                                publish(ProfileStore.Label.ShowSnackbar(snackbar))
+                            },
+                            onSuccess = {},
+                        )
                     }
                 }
             },

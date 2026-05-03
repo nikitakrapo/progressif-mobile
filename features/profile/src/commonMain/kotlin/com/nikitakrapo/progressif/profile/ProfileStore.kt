@@ -1,6 +1,7 @@
 package com.nikitakrapo.progressif.profile
 
 import com.arkivanov.mvikotlin.core.store.Store
+import com.nikitakrapo.progressif.strings.Text
 
 interface ProfileStore : Store<ProfileStore.Intent, ProfileState, ProfileStore.Label> {
 
@@ -11,5 +12,7 @@ interface ProfileStore : Store<ProfileStore.Intent, ProfileState, ProfileStore.L
         data object AcceptLogoutConfirmation : Intent
     }
 
-    sealed interface Label
+    sealed interface Label {
+        data class ShowSnackbar(val message: Text) : Label
+    }
 }

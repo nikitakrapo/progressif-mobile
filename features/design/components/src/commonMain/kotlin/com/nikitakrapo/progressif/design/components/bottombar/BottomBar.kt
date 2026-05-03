@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
@@ -38,12 +37,7 @@ import com.nikitakrapo.progressif.design.theme.PreviewTheme
 import com.nikitakrapo.progressif.design.theme.ProgressifTheme
 import org.jetbrains.compose.resources.painterResource
 
-internal object BottomBarItemDefaults {
-    val height = 64.dp
-    val width = 96.dp
-}
-
-fun BottomBarPadding() = PaddingValues(bottom = BottomBarItemDefaults.height)
+fun BottomBarPadding() = PaddingValues(bottom = 90.dp)
 
 @Stable
 data class BottomBarItem(
@@ -110,10 +104,6 @@ private fun RowScope.BottomBarItem(
                 indication = null,
             )
             .weight(1f, fill = false)
-            .defaultMinSize(
-                minHeight = BottomBarItemDefaults.height,
-                minWidth = BottomBarItemDefaults.width,
-            )
             .padding(6.dp),
         contentAlignment = Alignment.Center,
     ) {

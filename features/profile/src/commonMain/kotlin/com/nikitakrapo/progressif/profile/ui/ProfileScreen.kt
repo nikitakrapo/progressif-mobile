@@ -1,5 +1,6 @@
 package com.nikitakrapo.progressif.profile.ui
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.AlertDialog
@@ -8,27 +9,42 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.nikitakrapo.progressf.strings.Res
 import com.nikitakrapo.progressf.strings.common_cancel
 import com.nikitakrapo.progressf.strings.profile_logout_confirm_text
 import com.nikitakrapo.progressf.strings.profile_logout_dialog_text
 import com.nikitakrapo.progressf.strings.profile_logout_dialog_title
+import com.nikitakrapo.progressif.design.components.bottombar.BottomBarPadding
 import com.nikitakrapo.progressif.design.components.screen.ScreenScaffold
 import com.nikitakrapo.progressif.profile.ProfileComponent
 import com.nikitakrapo.progressif.profile.ProfileSection
 import com.nikitakrapo.progressif.profile.ProfileStore
+import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalResourceApi::class)
 @Composable
 fun ProfileScreen(
     component: ProfileComponent,
 ) {
     val state by component.state.collectAsStateWithLifecycle()
     val snackbarHostState = remember { SnackbarHostState() }
+
+    LaunchedEffect(component) {
+        component.events.collect { event ->
+            when (event) {
+                is ProfileStore.Label.ShowSnackbar -> {
+                    val message = event.message.resolveAsync()
+                    snackbarHostState.showSnackbar(message)
+                }
+            }
+        }
+    }
 
     ScreenScaffold(
         snackbarHostState = snackbarHostState,
@@ -38,15 +54,19 @@ fun ProfileScreen(
                     when (section) {
                         is ProfileSection.Header -> ProfileHeader(displayName = section.displayName)
                         is ProfileSection.Button -> {
-                            val label = section.label.resolve()
-                            TextButton(onClick = { component.accept(section.intent) }) {
-                                Text(text = label)
-                            }
+                            TextButton(
+                                onClick = { component.accept(section.intent) },
+                                content = {
+                                    Text(text = section.label.resolve())
+                                },
+                            )
                         }
                     }
                 }
             }
         },
+        modifier = Modifier
+            .padding(BottomBarPadding()),
     )
 
     if (state.isLogoutConfirmationShown) {
