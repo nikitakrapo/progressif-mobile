@@ -5,8 +5,8 @@ import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.arkivanov.decompose.extensions.compose.stack.Children
 import com.nikitakrapo.progressif.auth.ui.landing.AuthLandingScreen
+import com.nikitakrapo.progressif.auth.ui.registration.RegistrationScreen
 import com.nikitakrapo.progressif.auth.ui.signin.SignInScreen
-import com.nikitakrapo.progressif.auth.ui.signup.SignUpScreen
 
 @Composable
 fun AuthenticationScreen(
@@ -18,7 +18,7 @@ fun AuthenticationScreen(
         when (val instance = created.instance) {
             is AuthenticationComponent.Child.Landing -> AuthLandingScreen(instance.component)
             is AuthenticationComponent.Child.SignIn -> SignInScreen(instance.component)
-            is AuthenticationComponent.Child.SignUp -> SignUpScreen(instance.component)
+            is AuthenticationComponent.Child.Registration -> RegistrationScreen(instance.component)
         }
     }
 }

@@ -11,6 +11,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 
+private val EMAIL_REGEX = Regex("""(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])""")
+
 class UserRepositoryImpl : UserRepository {
 
     private val scope = CoroutineScope(Dispatchers.Default)
@@ -25,19 +27,23 @@ class UserRepositoryImpl : UserRepository {
             initialValue = auth.user.toUser(),
         )
 
-    override suspend fun signUp(email: String, password: String): Result<Unit, SignUpError> {
+    override suspend fun register(email: String, password: String): Result<Unit, RegistrationError> {
+        if (!EMAIL_REGEX.matches(email)) {
+            return Result.Failure(RegistrationError.InvalidEmail)
+        }
+
         return try {
             val user = auth.createUserWithEmailAndPassword(email, password)
             if (user != null) {
                 Result.Success(Unit)
             } else {
-                Result.Failure(SignUpError.Unknown)
+                Result.Failure(RegistrationError.Unknown)
             }
         } catch (e: FirebaseAuthWeakPasswordException) {
-            Result.Failure(SignUpError.WeakPassword)
+            Result.Failure(RegistrationError.WeakPassword)
         } catch (e: Exception) {
-            Napier.e(e) { "Error while signing up" }
-            Result.Failure(SignUpError.Unknown)
+            Napier.e(e) { "Error while registering" }
+            Result.Failure(RegistrationError.Unknown)
         }
     }
 

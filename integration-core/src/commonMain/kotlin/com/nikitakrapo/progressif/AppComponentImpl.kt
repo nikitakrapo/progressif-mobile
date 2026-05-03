@@ -57,7 +57,7 @@ class AppComponentImpl(
     private fun handleUserChanged(user: User?) {
         if (user == null) {
             navigation.navigate { listOf(Configuration.Authentication) }
-        } else if (!child.value.items.all { it.configuration is Configuration.Authentication }) {
+        } else {
             navigation.navigate { listOf(Configuration.ProgressionsList) }
         }
     }

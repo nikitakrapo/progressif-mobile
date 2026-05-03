@@ -7,7 +7,7 @@ interface UserRepository {
 
     val user: StateFlow<User?>
 
-    suspend fun signUp(email: String, password: String): Result<Unit, SignUpError>
+    suspend fun register(email: String, password: String): Result<Unit, RegistrationError>
 
     suspend fun signIn(email: String, password: String): Result<Unit, SignInError>
 

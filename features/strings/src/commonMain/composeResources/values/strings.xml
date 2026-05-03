@@ -13,4 +13,10 @@
 
     <string name="bottom_bar_item_progression">Progression</string>
     <string name="bottom_bar_item_profile">Profile</string>
+
+    <string name="registration_submit_button_text">Submit</string>
+    <string name="registration_error_invalid_email">Invalid email</string>
+    <string name="registration_error_weak_password">Password is too weak</string>
+
+    <string name="common_error_unknown">Something went wrong</string>
 </resources>

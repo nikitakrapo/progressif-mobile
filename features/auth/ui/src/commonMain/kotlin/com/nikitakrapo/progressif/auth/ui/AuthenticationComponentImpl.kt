@@ -5,10 +5,11 @@ import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.bringToFront
 import com.arkivanov.decompose.router.stack.childStack
+import com.arkivanov.decompose.router.stack.pop
 import com.nikitakrapo.progressif.auth.ui.AuthenticationComponent.Child
 import com.nikitakrapo.progressif.auth.ui.landing.AuthLandingComponentImpl
+import com.nikitakrapo.progressif.auth.ui.registration.RegistrationComponentImpl
 import com.nikitakrapo.progressif.auth.ui.signin.SignInComponentImpl
-import com.nikitakrapo.progressif.auth.ui.signup.SignUpComponentImpl
 import com.nikitakrapo.progressif.decompose.asStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.serialization.Serializable
@@ -34,15 +35,19 @@ class AuthenticationComponentImpl(
                 val component = AuthLandingComponentImpl(
                     componentContext = componentContext,
                     openLogin = { navigation.bringToFront(Configuration.SignIn) },
-                    openRegistration = { navigation.bringToFront(Configuration.SignUp) },
+                    openRegistration = { navigation.bringToFront(Configuration.Registration) },
                 )
                 Child.Landing(component)
             }
             Configuration.SignIn -> {
                 Child.SignIn(SignInComponentImpl(componentContext))
             }
-            Configuration.SignUp -> {
-                Child.SignUp(SignUpComponentImpl(componentContext))
+            Configuration.Registration -> {
+                val component = RegistrationComponentImpl(
+                    componentContext = componentContext,
+                    navigateBack = { navigation.pop() },
+                )
+                Child.Registration(component)
             }
         }
 
@@ -56,7 +61,7 @@ class AuthenticationComponentImpl(
         data object SignIn : Configuration
 
         @Serializable
-        data object SignUp : Configuration
+        data object Registration : Configuration
 
     }
 }
