@@ -5,6 +5,9 @@ import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.plugins.DefaultRequest
 import io.ktor.client.plugins.HttpTimeout
+import io.ktor.client.plugins.auth.Auth
+import io.ktor.client.plugins.auth.providers.BearerTokens
+import io.ktor.client.plugins.auth.providers.bearer
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
@@ -16,6 +19,7 @@ expect fun createHttpClientEngine(): HttpClientEngine
 
 class HttpClientFactory(
     private val networkConfig: NetworkConfig,
+    private val authTokenProvider: AuthTokenProvider,
 ) {
 
     private val jsonInstance by lazy {
@@ -35,6 +39,17 @@ class HttpClientFactory(
             }
             install(HttpTimeout) {
                 requestTimeoutMillis = networkConfig.timeout.inWholeMilliseconds
+            }
+            install(Auth) {
+                bearer {
+                    loadTokens {
+                        authTokenProvider.getToken(forceRefresh = false)?.let { BearerTokens(it, null) }
+                    }
+                    refreshTokens {
+                        authTokenProvider.getToken(forceRefresh = true)?.let { BearerTokens(it, null) }
+                    }
+                    sendWithoutRequest { true }
+                }
             }
             install(Logging) {
                 level = LogLevel.INFO

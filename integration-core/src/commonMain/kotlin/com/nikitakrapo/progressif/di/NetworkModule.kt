@@ -6,6 +6,11 @@ import io.ktor.client.HttpClient
 import org.koin.dsl.module
 
 internal val NetworkModule = module {
-    single<HttpClientFactory> { HttpClientFactory(networkConfig = ProgressifNetworkConfig) }
+    single<HttpClientFactory> {
+        HttpClientFactory(
+            networkConfig = ProgressifNetworkConfig,
+            authTokenProvider = get(),
+        )
+    }
     single<HttpClient> { get<HttpClientFactory>().createDefaultClient() }
 }

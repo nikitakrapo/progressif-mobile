@@ -60,4 +60,12 @@ actual object FirebaseAuth {
             throw FirebaseAuthException(e.message)
         }
     }
+
+    actual suspend fun getIdToken(forceRefresh: Boolean): String? {
+        return try {
+            androidAuth.currentUser?.getIdToken(forceRefresh)?.await()?.token
+        } catch (e: Exception) {
+            throw FirebaseAuthException(e.message)
+        }
+    }
 }

@@ -23,4 +23,8 @@ actual object FirebaseAuth {
     actual suspend fun signOut() {
         TODO("Not yet implemented")
     }
+
+    actual suspend fun getIdToken(forceRefresh: Boolean): String? {
+        TODO("Not yet implemented")
+    }
 }

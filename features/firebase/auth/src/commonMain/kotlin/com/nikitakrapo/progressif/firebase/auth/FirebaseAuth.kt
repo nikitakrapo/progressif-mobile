@@ -18,4 +18,7 @@ expect object FirebaseAuth {
 
     @Throws(FirebaseAuthException::class)
     suspend fun signOut()
+
+    @Throws(FirebaseAuthException::class)
+    suspend fun getIdToken(forceRefresh: Boolean = false): String?
 }
