@@ -1,5 +1,6 @@
 plugins {
     id("progressif.multiplatform.module")
+    alias(libs.plugins.kotlinSerialization)
 }
 
 kotlin {
@@ -14,8 +15,10 @@ kotlin {
         commonMain.dependencies {
             api(projects.features.auth.api)
             implementation(libs.kotlin.coroutines)
+            implementation(libs.ktor.client.core)
             implementation(projects.features.common)
             implementation(projects.features.firebase.auth)
+            implementation(projects.features.network)
         }
     }
 }
