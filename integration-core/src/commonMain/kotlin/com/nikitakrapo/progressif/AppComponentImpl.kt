@@ -8,7 +8,7 @@ import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.router.stack.navigate
 import com.arkivanov.essenty.lifecycle.coroutines.coroutineScope
 import com.nikitakrapo.progressif.auth.ui.AuthenticationComponentImpl
-import com.nikitakrapo.progressif.auth.user.User
+import com.nikitakrapo.progressif.auth.user.AuthState
 import com.nikitakrapo.progressif.auth.user.UserRepository
 import com.nikitakrapo.progressif.decompose.asStateFlow
 import com.nikitakrapo.progressif.di.Di
@@ -29,7 +29,7 @@ class AppComponentImpl(
 
     init {
         scope.launch {
-            userRepository.user.collect(::handleUserChanged)
+            userRepository.state.collect(::handleAuthStateChanged)
         }
     }
 
@@ -37,11 +37,7 @@ class AppComponentImpl(
         key = "AppComponent",
         source = navigation,
         serializer = Configuration.serializer(),
-        initialConfiguration = if (userRepository.user.value != null) {
-            Configuration.ProgressionsList
-        } else {
-            Configuration.Authentication
-        },
+        initialConfiguration = userRepository.state.value.toRootConfiguration(),
         handleBackButton = true,
         childFactory = ::createChild,
     ).asStateFlow()
@@ -54,12 +50,13 @@ class AppComponentImpl(
         navigation.bringToFront(Configuration.Profile)
     }
 
-    private fun handleUserChanged(user: User?) {
-        if (user == null) {
-            navigation.navigate { listOf(Configuration.Authentication) }
-        } else {
-            navigation.navigate { listOf(Configuration.ProgressionsList) }
-        }
+    private fun handleAuthStateChanged(state: AuthState) {
+        navigation.navigate { listOf(state.toRootConfiguration()) }
+    }
+
+    private fun AuthState.toRootConfiguration(): Configuration = when (this) {
+        is AuthState.SignedIn -> Configuration.ProgressionsList
+        else -> Configuration.Authentication
     }
 
     private fun createChild(

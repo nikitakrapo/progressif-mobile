@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.StateFlow
 
 interface UserRepository {
 
-    val user: StateFlow<User?>
+    val state: StateFlow<AuthState>
 
     suspend fun register(email: String, password: String): Result<Unit, RegistrationError>
 

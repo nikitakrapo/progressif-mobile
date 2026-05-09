@@ -6,11 +6,11 @@ import com.nikitakrapo.progressif.result.Result
 import io.ktor.client.HttpClient
 import io.ktor.client.request.get
 
-internal class UsersService(
+class UsersService(
     private val httpClient: HttpClient,
 ) {
 
-    suspend fun getMe(): Result<UserDto, NetworkError> =
+    internal suspend fun getMe(): Result<UserDto, NetworkError> =
         safeRequest<UserDto, NetworkError>(
             request = {
                 httpClient.get("users/me")

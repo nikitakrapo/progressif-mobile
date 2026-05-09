@@ -14,6 +14,6 @@ class ProgressifApplication : Application() {
         Napier.base(DebugAntilog())
         Napier.d { "Application created" }
         FirebaseApp.initialize(this.toKmpContext())
-        AppDi.start()
+        AppDi.start(applicationContext = this.toKmpContext())
     }
 }

@@ -16,6 +16,7 @@ kotlin {
             api(projects.features.auth.api)
             implementation(libs.kotlin.coroutines)
             implementation(libs.ktor.client.core)
+            implementation(libs.multiplatformSettings)
             implementation(projects.features.common)
             implementation(projects.features.firebase.auth)
             implementation(projects.features.network)

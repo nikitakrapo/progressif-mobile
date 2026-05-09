@@ -3,6 +3,7 @@ package com.nikitakrapo.progressif.profile
 import com.arkivanov.mvikotlin.core.store.Store
 import com.arkivanov.mvikotlin.core.store.StoreFactory
 import com.arkivanov.mvikotlin.extensions.coroutines.coroutineExecutorFactory
+import com.nikitakrapo.progressif.auth.user.AuthState
 import com.nikitakrapo.progressif.auth.user.User
 import com.nikitakrapo.progressif.auth.user.UserRepository
 import com.nikitakrapo.progressf.strings.Res
@@ -23,7 +24,8 @@ class ProfileStoreFactory(
             initialState = ProfileState(),
             executorFactory = coroutineExecutorFactory {
                 onIntent<ProfileStore.Intent.Refresh> {
-                    val sections = buildSections(userRepository.user.value)
+                    val user = (userRepository.state.value as? AuthState.SignedIn)?.user
+                    val sections = buildSections(user)
                     dispatch(Msg.SectionsUpdated(sections))
                 }
                 onIntent<ProfileStore.Intent.ShowLogoutConfirmation> {
