@@ -8,4 +8,5 @@ object Spacing {
 
     val screen = 16.dp
     val betweenComponents = 16.dp
+    val buttonToText = 12.dp
 }

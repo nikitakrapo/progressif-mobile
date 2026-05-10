@@ -17,6 +17,12 @@
     <string name="bottom_bar_item_progression">Progression</string>
     <string name="bottom_bar_item_profile">Profile</string>
 
+    <!-- Authentication, login, registration, etc. -->
+
+    <string name="auth_landing_create_account_button">create account</string>
+    <string name="auth_landing_sign_in_prompt">already have one?</string>
+    <string name="auth_landing_sign_in_action">SIGN IN</string>
+
     <string name="registration_submit_button_text">Submit</string>
     <string name="registration_error_invalid_email">Invalid email</string>
     <string name="registration_error_weak_password">Password is too weak</string>
