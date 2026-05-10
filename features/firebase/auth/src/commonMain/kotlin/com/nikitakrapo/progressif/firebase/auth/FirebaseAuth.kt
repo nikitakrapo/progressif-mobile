@@ -14,7 +14,7 @@ expect object FirebaseAuth {
     suspend fun createUserWithEmailAndPassword(email: String, password: String): FirebaseUser?
 
     @Throws(FirebaseAuthException::class)
-    suspend fun signInWithEmailAndPassword(email: String, password: String): FirebaseUser?
+    suspend fun loginWithEmailAndPassword(email: String, password: String): FirebaseUser?
 
     @Throws(FirebaseAuthException::class)
     suspend fun signOut()

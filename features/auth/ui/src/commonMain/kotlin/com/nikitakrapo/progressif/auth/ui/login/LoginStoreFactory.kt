@@ -1,23 +1,23 @@
-package com.nikitakrapo.progressif.auth.ui.signin
+package com.nikitakrapo.progressif.auth.ui.login
 
 import com.arkivanov.mvikotlin.core.store.Store
 import com.arkivanov.mvikotlin.core.store.StoreFactory
 import com.arkivanov.mvikotlin.extensions.coroutines.coroutineBootstrapper
 import com.arkivanov.mvikotlin.extensions.coroutines.coroutineExecutorFactory
-import com.nikitakrapo.progressif.auth.ui.signin.SignInStore.Intent
-import com.nikitakrapo.progressif.auth.ui.signin.SignInStore.Label
+import com.nikitakrapo.progressif.auth.ui.login.LoginStore.Intent
+import com.nikitakrapo.progressif.auth.ui.login.LoginStore.Label
 import com.nikitakrapo.progressif.auth.user.UserRepository
 import io.github.aakira.napier.Napier
 import kotlinx.coroutines.launch
 
-internal class SignInStoreFactory(
+internal class LoginStoreFactory(
     private val storeFactory: StoreFactory,
     private val userRepository: UserRepository,
 ) {
-    fun create(): SignInStore =
-        object : SignInStore, Store<Intent, SignInState, Label> by storeFactory.create(
+    fun create(): LoginStore =
+        object : LoginStore, Store<Intent, LoginState, Label> by storeFactory.create(
             name = "ProgressionsListStore",
-            initialState = SignInState(
+            initialState = LoginState(
                 email = "",
                 password = "",
             ),
@@ -34,7 +34,7 @@ internal class SignInStoreFactory(
 
                 onIntent<Intent.Submit> {
                     launch {
-                        val loginResult = userRepository.signIn(state().email, state().password)
+                        val loginResult = userRepository.login(state().email, state().password)
                         Napier.d { "Login result: $loginResult" }
                     }
                 }

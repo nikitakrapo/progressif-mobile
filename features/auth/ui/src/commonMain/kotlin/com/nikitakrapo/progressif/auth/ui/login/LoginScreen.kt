@@ -1,4 +1,4 @@
-package com.nikitakrapo.progressif.auth.ui.signin
+package com.nikitakrapo.progressif.auth.ui.login
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -13,8 +13,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 
 @Composable
-fun SignInScreen(
-    component: SignInComponent,
+fun LoginScreen(
+    component: LoginComponent,
 ) {
     val state by component.state.collectAsState()
 
@@ -23,7 +23,7 @@ fun SignInScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
-        Text(text = "Sign In")
+        Text(text = "Log In")
         TextField(
             value = state.email,
             onValueChange = component::onEmailChanged,
@@ -35,7 +35,7 @@ fun SignInScreen(
         Button(
             onClick = component::onSubmitClicked,
             content = {
-                Text(text = "Sign in")
+                Text(text = "Log in")
             }
         )
     }

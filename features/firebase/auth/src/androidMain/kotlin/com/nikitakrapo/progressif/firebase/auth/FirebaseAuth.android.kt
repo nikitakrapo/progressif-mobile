@@ -40,7 +40,7 @@ actual object FirebaseAuth {
         }
     }
 
-    actual suspend fun signInWithEmailAndPassword(email: String, password: String): FirebaseUser? {
+    actual suspend fun loginWithEmailAndPassword(email: String, password: String): FirebaseUser? {
         return try {
             androidAuth.signInWithEmailAndPassword(email, password)
                 .await()

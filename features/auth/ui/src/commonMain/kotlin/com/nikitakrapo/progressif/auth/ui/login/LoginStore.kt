@@ -1,10 +1,10 @@
-package com.nikitakrapo.progressif.auth.ui.signin
+package com.nikitakrapo.progressif.auth.ui.login
 
 import com.arkivanov.mvikotlin.core.store.Store
-import com.nikitakrapo.progressif.auth.ui.signin.SignInStore.Intent
-import com.nikitakrapo.progressif.auth.ui.signin.SignInStore.Label
+import com.nikitakrapo.progressif.auth.ui.login.LoginStore.Intent
+import com.nikitakrapo.progressif.auth.ui.login.LoginStore.Label
 
-interface SignInStore : Store<Intent, SignInState, Label> {
+interface LoginStore : Store<Intent, LoginState, Label> {
 
     sealed interface Intent {
 

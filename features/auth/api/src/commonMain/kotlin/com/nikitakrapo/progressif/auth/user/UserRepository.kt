@@ -9,7 +9,7 @@ interface UserRepository {
 
     suspend fun register(email: String, password: String): Result<Unit, RegistrationError>
 
-    suspend fun signIn(email: String, password: String): Result<Unit, SignInError>
+    suspend fun login(email: String, password: String): Result<Unit, LoginError>
 
     suspend fun logout(): Result<Unit, LogoutError>
 }

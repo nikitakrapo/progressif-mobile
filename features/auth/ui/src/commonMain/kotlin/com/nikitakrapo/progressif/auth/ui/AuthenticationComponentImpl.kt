@@ -9,7 +9,7 @@ import com.arkivanov.decompose.router.stack.pop
 import com.nikitakrapo.progressif.auth.ui.AuthenticationComponent.Child
 import com.nikitakrapo.progressif.auth.ui.landing.AuthLandingComponentImpl
 import com.nikitakrapo.progressif.auth.ui.registration.RegistrationComponentImpl
-import com.nikitakrapo.progressif.auth.ui.signin.SignInComponentImpl
+import com.nikitakrapo.progressif.auth.ui.login.LoginComponentImpl
 import com.nikitakrapo.progressif.decompose.asStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.serialization.Serializable
@@ -34,13 +34,13 @@ class AuthenticationComponentImpl(
             Configuration.Landing -> {
                 val component = AuthLandingComponentImpl(
                     componentContext = componentContext,
-                    openLogin = { navigation.bringToFront(Configuration.SignIn) },
+                    openLogin = { navigation.bringToFront(Configuration.Login) },
                     openRegistration = { navigation.bringToFront(Configuration.Registration) },
                 )
                 Child.Landing(component)
             }
-            Configuration.SignIn -> {
-                Child.SignIn(SignInComponentImpl(componentContext))
+            Configuration.Login -> {
+                Child.Login(LoginComponentImpl(componentContext))
             }
             Configuration.Registration -> {
                 val component = RegistrationComponentImpl(
@@ -58,7 +58,7 @@ class AuthenticationComponentImpl(
         data object Landing : Configuration
 
         @Serializable
-        data object SignIn : Configuration
+        data object Login : Configuration
 
         @Serializable
         data object Registration : Configuration

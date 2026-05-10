@@ -16,7 +16,7 @@ actual object FirebaseAuth {
         TODO("Not yet implemented")
     }
 
-    actual suspend fun signInWithEmailAndPassword(email: String, password: String): FirebaseUser? {
+    actual suspend fun loginWithEmailAndPassword(email: String, password: String): FirebaseUser? {
         TODO("Not yet implemented")
     }
 

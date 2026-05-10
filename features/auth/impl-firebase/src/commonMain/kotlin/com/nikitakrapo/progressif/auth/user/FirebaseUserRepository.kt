@@ -99,18 +99,18 @@ class FirebaseUserRepository(
         )
     }
 
-    override suspend fun signIn(email: String, password: String): Result<Unit, SignInError> {
+    override suspend fun login(email: String, password: String): Result<Unit, LoginError> {
         return awaitAuthOutcome(
             firebaseAction = {
                 try {
-                    val user = auth.signInWithEmailAndPassword(email, password)
-                    if (user != null) Result.Success(Unit) else Result.Failure(SignInError.Unknown)
+                    val user = auth.loginWithEmailAndPassword(email, password)
+                    if (user != null) Result.Success(Unit) else Result.Failure(LoginError.Unknown)
                 } catch (e: Exception) {
-                    Napier.e(e) { "Error while signing in" }
-                    Result.Failure(SignInError.Unknown)
+                    Napier.e(e) { "Error while logging in" }
+                    Result.Failure(LoginError.Unknown)
                 }
             },
-            failureFallback = SignInError.Unknown,
+            failureFallback = LoginError.Unknown,
         )
     }
 

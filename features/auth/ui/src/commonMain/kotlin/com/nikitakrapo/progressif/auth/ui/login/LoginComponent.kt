@@ -1,10 +1,10 @@
-package com.nikitakrapo.progressif.auth.ui.signin
+package com.nikitakrapo.progressif.auth.ui.login
 
 import kotlinx.coroutines.flow.StateFlow
 
-interface SignInComponent {
+interface LoginComponent {
 
-    val state: StateFlow<SignInState>
+    val state: StateFlow<LoginState>
 
     fun onEmailChanged(value: String)
 
