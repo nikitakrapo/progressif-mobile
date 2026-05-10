@@ -5,12 +5,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.nikitakrapo.progressif.auth.ui.common.EmailPasswordField
 
 @Composable
 fun LoginScreen(
@@ -24,13 +24,11 @@ fun LoginScreen(
         verticalArrangement = Arrangement.Center,
     ) {
         Text(text = "Log In")
-        TextField(
-            value = state.email,
-            onValueChange = component::onEmailChanged,
-        )
-        TextField(
-            value = state.password,
-            onValueChange = component::onPasswordChanged,
+        EmailPasswordField(
+            email = state.email,
+            onEmailChange = component::onEmailChanged,
+            password = state.password,
+            onPasswordChange = component::onPasswordChanged,
         )
         Button(
             onClick = component::onSubmitClicked,

@@ -39,7 +39,7 @@ fun PreviewTheme(
     }
 }
 
-private val lightScheme = with(Colors) {
+private val lightScheme = with(PunchyColors) {
     lightColorScheme(
         primary = primaryLight,
         onPrimary = onPrimaryLight,
@@ -79,7 +79,7 @@ private val lightScheme = with(Colors) {
     )
 }
 
-private val darkScheme = with(Colors) {
+private val darkScheme = with(PunchyColors) {
     darkColorScheme(
         primary = primaryDark,
         onPrimary = onPrimaryDark,
