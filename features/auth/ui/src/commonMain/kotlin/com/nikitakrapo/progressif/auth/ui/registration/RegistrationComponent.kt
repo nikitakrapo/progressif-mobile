@@ -6,9 +6,11 @@ interface RegistrationComponent {
 
     val state: StateFlow<RegistrationState>
 
-    fun onEmailChanged(value: String)
+    fun onUsernameChange(value: String)
 
-    fun onPasswordChanged(value: String)
+    fun onEmailChange(value: String)
+
+    fun onPasswordChange(value: String)
 
     fun onSubmitClicked()
 

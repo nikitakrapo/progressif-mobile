@@ -23,6 +23,7 @@ fun LargeButton(
     text: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
+    enabled: Boolean = true,
 ) {
     Button(
         content = {
@@ -37,6 +38,7 @@ fun LargeButton(
             vertical = LargeButtonDefaults.VerticalSpacing,
             horizontal = LargeButtonDefaults.HorizontalSpacing,
         ),
+        enabled = enabled,
         modifier = modifier
             .sizeIn(minWidth = LargeButtonDefaults.MinWidth),
     )

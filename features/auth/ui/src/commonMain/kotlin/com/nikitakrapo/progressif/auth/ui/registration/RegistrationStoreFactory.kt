@@ -18,12 +18,17 @@ internal class RegistrationStoreFactory(
         object : RegistrationStore, Store<Intent, RegistrationState, Label> by storeFactory.create(
             name = "RegistrationStore",
             initialState = RegistrationState(
+                username = "",
                 email = "",
                 password = "",
                 isLoading = false,
                 error = null,
             ),
             executorFactory = coroutineExecutorFactory {
+                onIntent<Intent.UsernameChanged> {
+                    dispatch(Msg.UsernameChanged(it.value))
+                }
+
                 onIntent<Intent.EmailChanged> {
                     dispatch(Msg.EmailChanged(it.value))
                 }
@@ -48,6 +53,7 @@ internal class RegistrationStoreFactory(
             },
             reducer = { msg: Msg ->
                 when (msg) {
+                    is Msg.UsernameChanged -> copy(username = msg.value, error = null)
                     is Msg.EmailChanged -> copy(email = msg.value, error = null)
                     is Msg.PasswordChanged -> copy(password = msg.value, error = null)
                     Msg.RegistrationStarted -> copy(isLoading = true, error = null)
@@ -58,6 +64,7 @@ internal class RegistrationStoreFactory(
         ) {}
 
     private sealed interface Msg {
+        data class UsernameChanged(val value: String) : Msg
         data class EmailChanged(val value: String) : Msg
         data class PasswordChanged(val value: String) : Msg
         data object RegistrationStarted : Msg

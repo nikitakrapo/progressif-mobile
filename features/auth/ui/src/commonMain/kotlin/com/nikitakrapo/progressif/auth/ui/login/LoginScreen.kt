@@ -10,7 +10,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.nikitakrapo.progressif.auth.ui.common.EmailPasswordField
 
 @Composable
 fun LoginScreen(
@@ -23,13 +22,6 @@ fun LoginScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
-        Text(text = "Log In")
-        EmailPasswordField(
-            email = state.email,
-            onEmailChange = component::onEmailChanged,
-            password = state.password,
-            onPasswordChange = component::onPasswordChanged,
-        )
         Button(
             onClick = component::onSubmitClicked,
             content = {

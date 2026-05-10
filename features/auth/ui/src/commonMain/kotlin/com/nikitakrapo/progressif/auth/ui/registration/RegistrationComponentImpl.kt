@@ -22,11 +22,15 @@ class RegistrationComponentImpl(
 
     override val state: StateFlow<RegistrationState> = store.stateFlow
 
-    override fun onEmailChanged(value: String) {
+    override fun onUsernameChange(value: String) {
+        store.accept(Intent.UsernameChanged(value))
+    }
+
+    override fun onEmailChange(value: String) {
         store.accept(Intent.EmailChanged(value))
     }
 
-    override fun onPasswordChanged(value: String) {
+    override fun onPasswordChange(value: String) {
         store.accept(Intent.PasswordChanged(value))
     }
 

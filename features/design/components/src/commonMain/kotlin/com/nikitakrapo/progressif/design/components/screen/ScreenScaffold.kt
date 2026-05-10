@@ -6,6 +6,9 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.nikitakrapo.progressif.design.theme.ProgressifTheme
+import com.nikitakrapo.progressif.design.theme.spacing
+import com.nikitakrapo.progressif.design.utils.padding.plus
 
 @Composable
 fun ScreenScaffold(
@@ -22,6 +25,6 @@ fun ScreenScaffold(
             }
         },
         modifier = modifier,
-        content = content,
+        content = { content(it + PaddingValues(ProgressifTheme.spacing.screen)) },
     )
 }

@@ -8,6 +8,8 @@ interface RegistrationStore : Store<Intent, RegistrationState, Label> {
 
     sealed interface Intent {
 
+        data class UsernameChanged(val value: String) : Intent
+
         data class EmailChanged(val value: String) : Intent
 
         data class PasswordChanged(val value: String) : Intent
