@@ -1,6 +1,7 @@
 package com.nikitakrapo.progressif.auth.ui.registration
 
 import com.arkivanov.decompose.ComponentContext
+import com.arkivanov.mvikotlin.core.instancekeeper.getStore
 import com.arkivanov.mvikotlin.core.store.StoreFactory
 import com.arkivanov.mvikotlin.extensions.coroutines.stateFlow
 import com.nikitakrapo.progressif.auth.ui.registration.RegistrationStore.Intent
@@ -15,10 +16,12 @@ class RegistrationComponentImpl(
     userRepository: UserRepository = Di.get(),
 ) : RegistrationComponent, ComponentContext by componentContext {
 
-    private val store = RegistrationStoreFactory(
-        storeFactory = storeFactory,
-        userRepository = userRepository,
-    ).create()
+    private val store = instanceKeeper.getStore {
+        RegistrationStoreFactory(
+            storeFactory = storeFactory,
+            userRepository = userRepository,
+        ).create()
+    }
 
     override val state: StateFlow<RegistrationState> = store.stateFlow
 
