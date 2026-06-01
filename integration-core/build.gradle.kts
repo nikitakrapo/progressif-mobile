@@ -24,6 +24,8 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(projects.features.progressionsList)
+            implementation(projects.features.tricks)
+            implementation(projects.features.locale)
             implementation(projects.features.profile)
             implementation(projects.features.design.core)
             implementation(projects.features.design.components)

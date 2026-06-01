@@ -12,6 +12,7 @@ kotlin {
         commonMain.dependencies {
             api(libs.bundles.ktor)
             api(projects.features.common)
+            implementation(projects.features.locale)
         }
         androidMain.dependencies {
             implementation(libs.ktor.client.okhttp)

@@ -10,6 +10,7 @@ internal val NetworkModule = module {
         HttpClientFactory(
             networkConfig = ProgressifNetworkConfig,
             authTokenProvider = get(),
+            userLocaleProvider = get(),
         )
     }
     single<HttpClient> { get<HttpClientFactory>().createDefaultClient() }

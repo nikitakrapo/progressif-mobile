@@ -1,5 +1,6 @@
 package com.nikitakrapo.progressif.network
 
+import com.nikitakrapo.progressif.locale.UserLocaleProvider
 import io.github.aakira.napier.Napier
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngine
@@ -12,6 +13,8 @@ import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
+import io.ktor.client.request.header
+import io.ktor.http.HttpHeaders
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 
@@ -20,6 +23,7 @@ expect fun createHttpClientEngine(): HttpClientEngine
 class HttpClientFactory(
     private val networkConfig: NetworkConfig,
     private val authTokenProvider: AuthTokenProvider,
+    private val userLocaleProvider: UserLocaleProvider,
 ) {
 
     private val jsonInstance by lazy {
@@ -36,6 +40,7 @@ class HttpClientFactory(
             }
             install(DefaultRequest) {
                 url(networkConfig.baseUrl)
+                header(HttpHeaders.AcceptLanguage, userLocaleProvider.locale)
             }
             install(HttpTimeout) {
                 requestTimeoutMillis = networkConfig.timeout.inWholeMilliseconds

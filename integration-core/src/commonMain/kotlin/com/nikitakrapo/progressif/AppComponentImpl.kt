@@ -14,6 +14,7 @@ import com.nikitakrapo.progressif.decompose.asStateFlow
 import com.nikitakrapo.progressif.di.Di
 import com.nikitakrapo.progressif.profile.ProfileComponentImpl
 import com.nikitakrapo.progressif.progressions_list.ProgressionsListComponentImpl
+import com.nikitakrapo.progressif.tricks.TricksComponentImpl
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
@@ -46,6 +47,10 @@ class AppComponentImpl(
         navigation.bringToFront(Configuration.ProgressionsList)
     }
 
+    override fun onTricksClick() {
+        navigation.bringToFront(Configuration.Tricks)
+    }
+
     override fun onProfileClick() {
         navigation.bringToFront(Configuration.Profile)
     }
@@ -72,6 +77,14 @@ class AppComponentImpl(
                 )
             )
 
+            Configuration.Tricks -> AppComponent.Child.Tricks(
+                TricksComponentImpl(
+                    componentContext = componentContext,
+                    storeFactory = Di.get(),
+                    tricksRepository = Di.get(),
+                )
+            )
+
             Configuration.Profile -> AppComponent.Child.Profile(
                 ProfileComponentImpl(
                     componentContext = componentContext,
@@ -92,6 +105,9 @@ class AppComponentImpl(
 
         @Serializable
         data object ProgressionsList : Configuration
+
+        @Serializable
+        data object Tricks : Configuration
 
         @Serializable
         data object Profile : Configuration

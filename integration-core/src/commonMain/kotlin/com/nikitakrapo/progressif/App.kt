@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.extensions.compose.stack.Children
 import com.nikitakrapo.progressf.strings.bottom_bar_item_profile
 import com.nikitakrapo.progressf.strings.bottom_bar_item_progression
+import com.nikitakrapo.progressf.strings.bottom_bar_item_tricks
 import com.nikitakrapo.progressif.auth.ui.AuthenticationScreen
 import com.nikitakrapo.progressif.design.components.bottombar.BottomBar
 import com.nikitakrapo.progressif.design.components.bottombar.BottomBarItem
@@ -18,6 +19,7 @@ import com.nikitakrapo.progressif.design.icon.icons
 import com.nikitakrapo.progressif.design.theme.ProgressifTheme
 import com.nikitakrapo.progressif.profile.ui.ProfileScreen
 import com.nikitakrapo.progressif.progressions_list.ProgressionsListScreen
+import com.nikitakrapo.progressif.tricks.TricksScreen
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import com.nikitakrapo.progressf.strings.Res as StringRes
@@ -44,6 +46,10 @@ fun App(
                                 instance.component,
                             )
 
+                            is AppComponent.Child.Tricks -> TricksScreen(
+                                instance.component,
+                            )
+
                             is AppComponent.Child.Profile -> ProfileScreen(
                                 instance.component,
                             )
@@ -65,6 +71,12 @@ fun App(
                                 selected = child.active.instance is AppComponent.Child.ProgressionsList,
                             ),
                             BottomBarItem(
+                                icon = painterResource(ProgressifTheme.icons.skateboarding),
+                                title = stringResource(StringRes.string.bottom_bar_item_tricks),
+                                onClick = component::onTricksClick,
+                                selected = child.active.instance is AppComponent.Child.Tricks,
+                            ),
+                            BottomBarItem(
                                 icon = painterResource(ProgressifTheme.icons.profile),
                                 title = stringResource(StringRes.string.bottom_bar_item_profile),
                                 onClick = component::onProfileClick,
@@ -83,5 +95,6 @@ fun App(
 private val AppComponent.Child.showBottomBar: Boolean get() = when (this) {
     is AppComponent.Child.Authentication -> false
     is AppComponent.Child.Profile,
+    is AppComponent.Child.Tricks,
     is AppComponent.Child.ProgressionsList -> true
 }

@@ -6,9 +6,9 @@ interface LoginComponent {
 
     val state: StateFlow<LoginState>
 
-    fun onEmailChanged(value: String)
+    fun onEmailChange(value: String)
 
-    fun onPasswordChanged(value: String)
+    fun onPasswordChange(value: String)
 
     fun onSubmitClicked()
 }

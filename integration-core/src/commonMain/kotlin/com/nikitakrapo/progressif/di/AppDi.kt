@@ -11,6 +11,7 @@ object AppDi {
             modules(
                 module { single<ApplicationContext> { applicationContext } },
                 SettingsModule,
+                LocaleModule,
                 NetworkModule,
                 AuthModule,
                 RepositoriesModule,

@@ -21,11 +21,11 @@ class LoginComponentImpl(
 
     override val state: StateFlow<LoginState> = store.stateFlow
 
-    override fun onEmailChanged(value: String) {
+    override fun onEmailChange(value: String) {
         store.accept(Intent.EmailChanged(value))
     }
 
-    override fun onPasswordChanged(value: String) {
+    override fun onPasswordChange(value: String) {
         store.accept(Intent.PasswordChanged(value))
     }
 

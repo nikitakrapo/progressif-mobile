@@ -16,9 +16,11 @@
     <string name="error_server_message">server error</string>
 
     <string name="progressions_list_error_text">error happened, please try again</string>
+    <string name="tricks_error_text">error happened, please try again</string>
     <string name="progressions_list_add_progression">add progression</string>
 
     <string name="bottom_bar_item_progression">progression</string>
+    <string name="bottom_bar_item_tricks">tricks</string>
     <string name="bottom_bar_item_profile">profile</string>
 
     <!-- Authentication, login, registration, etc. -->
