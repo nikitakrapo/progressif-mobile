@@ -16,6 +16,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemColors
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Surface
@@ -37,6 +39,8 @@ import com.nikitakrapo.progressif.design.theme.PreviewTheme
 import com.nikitakrapo.progressif.design.theme.ProgressifTheme
 import org.jetbrains.compose.resources.painterResource
 
+private const val USE_FLOATING_BOTTOM_BAR = false
+
 fun BottomBarPadding() = PaddingValues(bottom = 90.dp)
 
 @Stable
@@ -52,23 +56,47 @@ fun BottomBar(
     items: List<BottomBarItem>,
     modifier: Modifier = Modifier,
 ) {
-    Box(
-        modifier = modifier
-            .padding(16.dp)
-            .navigationBarsPadding(),
-    ) {
-        Surface(
-            shape = CircleShape,
-            shadowElevation = 16.dp,
+    if (USE_FLOATING_BOTTOM_BAR) {
+        Box(
+            modifier = modifier
+                .padding(16.dp)
+                .navigationBarsPadding(),
         ) {
-            Row {
-                items.forEach { item ->
-                    BottomBarItem(
-                        item = item,
-                    )
+            Surface(
+                shape = CircleShape,
+                shadowElevation = 16.dp,
+            ) {
+                Row {
+                    items.forEach { item ->
+                        BottomBarItem(
+                            item = item,
+                        )
+                    }
                 }
             }
         }
+    } else {
+        NavigationBar(
+            content = {
+                items.forEach { item ->
+                    NavigationBarItem(
+                        selected = item.selected,
+                        onClick = item.onClick,
+                        icon = {
+                            Icon(
+                                painter = item.icon,
+                                contentDescription = item.title,
+                            )
+                        },
+                        label = {
+                            Text(text = item.title)
+                        },
+                        alwaysShowLabel = false,
+                    )
+                }
+            },
+            modifier = modifier,
+        )
     }
 }
 
