@@ -20,6 +20,7 @@ internal class LoginStoreFactory(
             initialState = LoginState(
                 email = "",
                 password = "",
+                isLoading = false,
             ),
             bootstrapper = coroutineBootstrapper {
             },

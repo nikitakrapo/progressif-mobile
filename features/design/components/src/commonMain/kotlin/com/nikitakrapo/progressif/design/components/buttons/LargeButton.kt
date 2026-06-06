@@ -16,6 +16,7 @@ internal object LargeButtonDefaults {
     val VerticalSpacing = 16.dp
     val HorizontalSpacing = 32.dp
     val MinWidth = 300.dp
+    val MaxWidth = 360.dp
 }
 
 @Composable
@@ -40,7 +41,10 @@ fun LargeButton(
         ),
         enabled = enabled,
         modifier = modifier
-            .sizeIn(minWidth = LargeButtonDefaults.MinWidth),
+            .sizeIn(
+                minWidth = LargeButtonDefaults.MinWidth,
+                maxWidth = LargeButtonDefaults.MaxWidth,
+            ),
     )
 }
 

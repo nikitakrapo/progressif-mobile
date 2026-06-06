@@ -5,7 +5,6 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -46,7 +45,7 @@ fun TricksScreen(
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize(),
-                contentPadding = PaddingValues(ProgressifTheme.spacing.screen) + BottomBarPadding()
+                contentPadding = ProgressifTheme.spacing.screen + BottomBarPadding()
             ) {
                 items(state.tricks) { trick ->
                     ListItem(
@@ -56,7 +55,7 @@ fun TricksScreen(
                             )
                         },
                     )
-                    Spacer(modifier = Modifier.height(ProgressifTheme.spacing.betweenComponents))
+                    Spacer(modifier = Modifier.height(ProgressifTheme.spacing.vertical.betweenComponents))
                 }
             }
         }

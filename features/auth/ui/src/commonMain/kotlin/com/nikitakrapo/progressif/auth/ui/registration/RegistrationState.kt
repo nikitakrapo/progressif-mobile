@@ -10,8 +10,8 @@ data class RegistrationState(
     val error: RegistrationError?,
 ) {
 
-    val submitButtonEnabled = username.isNotBlank() &&
-            email.isNotBlank() &&
-            password.isNotBlank() &&
-            !isLoading
+    val submitButtonEnabled = username.isNotBlank()
+            && email.isNotBlank()
+            && password.isNotBlank()
+            && !isLoading
 }

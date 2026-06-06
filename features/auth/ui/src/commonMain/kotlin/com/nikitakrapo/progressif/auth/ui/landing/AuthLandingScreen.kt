@@ -37,7 +37,7 @@ fun AuthLandingScreen(
             text = stringResource(Res.string.auth_landing_create_account_button),
         )
 
-        Spacer(modifier = Modifier.height(ProgressifTheme.spacing.buttonToText))
+        Spacer(modifier = Modifier.height(ProgressifTheme.spacing.vertical.buttonToText))
 
         val loginLabel = buildAnnotatedString(
             stringResource(Res.string.auth_landing_sign_in_prompt) to null,

@@ -29,9 +29,13 @@
     <string name="auth_landing_sign_in_prompt">already have one?</string>
     <string name="auth_landing_sign_in_action">SIGN IN</string>
 
-    <string name="registration_submit_button_text">submit</string>
+    <string name="registration_title">Hey, let's sign you up</string>
+    <string name="registration_submit_button_text">register</string>
     <string name="registration_error_invalid_email">invalid email</string>
     <string name="registration_error_weak_password">password is too weak</string>
+
+    <string name="login_title">Login</string>
+    <string name="login_submit_button_text">login</string>
 
     <string name="profile_logout_item_text">logout</string>
     <string name="profile_logout_confirm_text">logout</string>

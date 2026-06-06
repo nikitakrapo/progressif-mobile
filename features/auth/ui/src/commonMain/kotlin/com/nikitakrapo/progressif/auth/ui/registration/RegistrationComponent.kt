@@ -12,7 +12,7 @@ interface RegistrationComponent {
 
     fun onPasswordChange(value: String)
 
-    fun onSubmitClicked()
+    fun onSubmitClick()
 
     fun onBackClick()
 }

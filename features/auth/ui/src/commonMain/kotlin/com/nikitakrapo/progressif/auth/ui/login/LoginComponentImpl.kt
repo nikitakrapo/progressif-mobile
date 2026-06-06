@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.StateFlow
 
 class LoginComponentImpl(
     componentContext: ComponentContext,
+    private val navigateBack: () -> Unit,
     storeFactory: StoreFactory = Di.get(),
     userRepository: UserRepository = Di.get(),
 ) : LoginComponent, ComponentContext by componentContext {
@@ -29,7 +30,11 @@ class LoginComponentImpl(
         store.accept(Intent.PasswordChanged(value))
     }
 
-    override fun onSubmitClicked() {
+    override fun onSubmitClick() {
         store.accept(Intent.Submit)
+    }
+
+    override fun onBackClick() {
+        navigateBack()
     }
 }

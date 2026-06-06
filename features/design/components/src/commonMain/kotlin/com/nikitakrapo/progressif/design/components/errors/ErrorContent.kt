@@ -36,7 +36,7 @@ fun ErrorContent(
             style = ProgressifTheme.typography.titleLarge,
         )
 
-        Spacer(modifier = Modifier.height(ProgressifTheme.spacing.betweenComponents))
+        Spacer(modifier = Modifier.height(ProgressifTheme.spacing.vertical.betweenComponents))
 
         onRefreshClicked?.let {
             MediumButton(

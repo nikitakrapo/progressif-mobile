@@ -37,7 +37,7 @@ class RegistrationComponentImpl(
         store.accept(Intent.PasswordChanged(value))
     }
 
-    override fun onSubmitClicked() {
+    override fun onSubmitClick() {
         store.accept(Intent.Submit)
     }
 

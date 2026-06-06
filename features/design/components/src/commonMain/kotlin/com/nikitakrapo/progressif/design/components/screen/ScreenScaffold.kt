@@ -25,6 +25,6 @@ fun ScreenScaffold(
             }
         },
         modifier = modifier,
-        content = { content(it + PaddingValues(ProgressifTheme.spacing.screen)) },
+        content = { content(it + ProgressifTheme.spacing.screen) },
     )
 }

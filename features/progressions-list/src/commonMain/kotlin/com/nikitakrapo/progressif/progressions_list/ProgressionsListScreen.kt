@@ -6,7 +6,6 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -50,7 +49,7 @@ fun ProgressionsListScreen(
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize(),
-                contentPadding = PaddingValues(ProgressifTheme.spacing.screen) + BottomBarPadding()
+                contentPadding = ProgressifTheme.spacing.screen + BottomBarPadding()
             ) {
                 itemsIndexed(state.items) { index, item ->
                     when (item) {
@@ -77,7 +76,7 @@ fun ProgressionsListScreen(
                             )
                         }
                     }
-                    Spacer(modifier = Modifier.height(ProgressifTheme.spacing.betweenComponents))
+                    Spacer(modifier = Modifier.height(ProgressifTheme.spacing.vertical.betweenComponents))
                 }
             }
         }

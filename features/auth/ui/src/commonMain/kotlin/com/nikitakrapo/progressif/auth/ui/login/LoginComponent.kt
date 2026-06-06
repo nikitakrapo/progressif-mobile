@@ -10,5 +10,7 @@ interface LoginComponent {
 
     fun onPasswordChange(value: String)
 
-    fun onSubmitClicked()
+    fun onSubmitClick()
+
+    fun onBackClick()
 }

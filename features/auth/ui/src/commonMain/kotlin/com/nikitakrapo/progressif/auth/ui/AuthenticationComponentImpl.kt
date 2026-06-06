@@ -8,8 +8,8 @@ import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.router.stack.pop
 import com.nikitakrapo.progressif.auth.ui.AuthenticationComponent.Child
 import com.nikitakrapo.progressif.auth.ui.landing.AuthLandingComponentImpl
-import com.nikitakrapo.progressif.auth.ui.registration.RegistrationComponentImpl
 import com.nikitakrapo.progressif.auth.ui.login.LoginComponentImpl
+import com.nikitakrapo.progressif.auth.ui.registration.RegistrationComponentImpl
 import com.nikitakrapo.progressif.decompose.asStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.serialization.Serializable
@@ -40,7 +40,11 @@ class AuthenticationComponentImpl(
                 Child.Landing(component)
             }
             Configuration.Login -> {
-                Child.Login(LoginComponentImpl(componentContext))
+                val component = LoginComponentImpl(
+                    componentContext = componentContext,
+                    navigateBack = { navigation.pop() },
+                )
+                Child.Login(component)
             }
             Configuration.Registration -> {
                 val component = RegistrationComponentImpl(

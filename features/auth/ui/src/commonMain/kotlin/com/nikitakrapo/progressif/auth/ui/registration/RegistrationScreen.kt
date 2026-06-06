@@ -1,13 +1,17 @@
 package com.nikitakrapo.progressif.auth.ui.registration
 
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -18,6 +22,8 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import com.nikitakrapo.progressf.strings.Res
 import com.nikitakrapo.progressf.strings.registration_submit_button_text
+import com.nikitakrapo.progressf.strings.registration_title
+import com.nikitakrapo.progressif.auth.ui.common.AuthUiTokens
 import com.nikitakrapo.progressif.auth.ui.common.EmailField
 import com.nikitakrapo.progressif.auth.ui.common.PasswordField
 import com.nikitakrapo.progressif.auth.ui.common.UsernameField
@@ -45,59 +51,81 @@ fun RegistrationScreen(
             )
         },
         content = { paddingValues ->
-            Column(
+            LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(paddingValues)
-                    .imePadding(),
+                    .imePadding()
+                    .scrollable(rememberScrollState(), orientation = Orientation.Vertical),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center,
             ) {
-                UsernameField(
-                    username = state.username,
-                    onUsernameChange = component::onUsernameChange,
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                )
-
-                Spacer(modifier = Modifier.height(ProgressifTheme.spacing.betweenComponents))
-
-                EmailField(
-                    email = state.email,
-                    onEmailChange = component::onEmailChange,
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                )
-
-                Spacer(modifier = Modifier.height(ProgressifTheme.spacing.betweenComponents))
-
-                PasswordField(
-                    password = state.password,
-                    onPasswordChange = component::onPasswordChange,
-                    imeAction = ImeAction.Done,
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                )
-
-                state.error?.let { error ->
+                item {
                     Text(
-                        text = error.toMessage(),
+                        text = stringResource(Res.string.registration_title),
+                        style = ProgressifTheme.typography.headlineMedium,
+                        modifier = Modifier
+                            .widthIn(max = AuthUiTokens.MaxFieldWidth)
+                            .fillMaxWidth(),
                     )
+
+                    Spacer(modifier = Modifier.height(ProgressifTheme.spacing.vertical.betweenComponents))
                 }
 
-                Spacer(modifier = Modifier.height(ProgressifTheme.spacing.componentToButton))
+                item {
+                    UsernameField(
+                        username = state.username,
+                        onUsernameChange = component::onUsernameChange,
+                        modifier = Modifier
+                            .widthIn(max = AuthUiTokens.MaxFieldWidth)
+                            .fillMaxWidth(),
+                    )
 
-                LargeButton(
-                    onClick = component::onSubmitClicked,
-                    text = stringResource(Res.string.registration_submit_button_text),
-                    enabled = state.submitButtonEnabled,
-                )
+                    Spacer(modifier = Modifier.height(ProgressifTheme.spacing.vertical.betweenComponents))
+                }
+
+                item {
+                    EmailField(
+                        email = state.email,
+                        onEmailChange = component::onEmailChange,
+                        modifier = Modifier
+                            .widthIn(max = AuthUiTokens.MaxFieldWidth)
+                            .fillMaxWidth(),
+                    )
+
+                    Spacer(modifier = Modifier.height(ProgressifTheme.spacing.vertical.betweenComponents))
+                }
+
+                item {
+                    PasswordField(
+                        password = state.password,
+                        onPasswordChange = component::onPasswordChange,
+                        imeAction = ImeAction.Done,
+                        modifier = Modifier
+                            .widthIn(max = AuthUiTokens.MaxFieldWidth)
+                            .fillMaxWidth(),
+                    )
+
+                    Spacer(modifier = Modifier.height(ProgressifTheme.spacing.vertical.componentToButton))
+                }
+
+                item {
+                    LargeButton(
+                        onClick = component::onSubmitClick,
+                        text = stringResource(Res.string.registration_submit_button_text),
+                        enabled = state.submitButtonEnabled,
+                        modifier = Modifier
+                            .widthIn(max = AuthUiTokens.MaxFieldWidth)
+                            .fillMaxWidth(),
+                    )
+                }
             }
         },
     )
 }
 
-@Preview
+@Preview(widthDp = 720, heightDp = 360)
+@Preview(widthDp = 360, heightDp = 720)
 @Composable
 private fun RegistrationScreenPreview() {
     PreviewTheme {
@@ -124,7 +152,7 @@ private fun PreviewRegistrationComponent() = object : RegistrationComponent {
 
     override fun onPasswordChange(value: String) {}
 
-    override fun onSubmitClicked() {}
+    override fun onSubmitClick() {}
 
     override fun onBackClick() {}
 }
