@@ -6,6 +6,7 @@ import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.bringToFront
 import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.router.stack.pop
+import com.arkivanov.decompose.router.stack.replaceCurrent
 import com.nikitakrapo.progressif.auth.ui.AuthenticationComponent.Child
 import com.nikitakrapo.progressif.auth.ui.landing.AuthLandingComponentImpl
 import com.nikitakrapo.progressif.auth.ui.login.LoginComponentImpl
@@ -49,7 +50,7 @@ class AuthenticationComponentImpl(
             Configuration.Registration -> {
                 val component = RegistrationComponentImpl(
                     componentContext = componentContext,
-                    navigateToLogin = { navigation.bringToFront(Configuration.Login) },
+                    navigateToLogin = { navigation.replaceCurrent(Configuration.Login) },
                     navigateBack = { navigation.pop() },
                 )
                 Child.Registration(component)
