@@ -129,7 +129,7 @@ fun RegistrationScreen(
     )
 }
 
-private fun Modifier.registrationItemWidth() = Modifier
+private fun Modifier.registrationItemWidth() = this
     .widthIn(max = AuthUiTokens.MaxFieldWidth)
     .fillMaxWidth()
 

@@ -2,5 +2,7 @@ package com.nikitakrapo.progressif.auth.user
 
 sealed interface LoginError {
 
+    data object InvalidCredentials : LoginError
+
     data object Unknown : LoginError
 }

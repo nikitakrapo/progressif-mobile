@@ -5,6 +5,7 @@ import com.nikitakrapo.progressif.auth.remote.UsersService
 import com.nikitakrapo.progressif.auth.remote.toUser
 import com.nikitakrapo.progressif.firebase.auth.FirebaseAuth
 import com.nikitakrapo.progressif.firebase.auth.errors.FirebaseAuthException
+import com.nikitakrapo.progressif.firebase.auth.errors.FirebaseAuthInvalidCredentialsException
 import com.nikitakrapo.progressif.firebase.auth.errors.FirebaseAuthUserCollisionException
 import com.nikitakrapo.progressif.firebase.auth.errors.FirebaseAuthWeakPasswordException
 import com.nikitakrapo.progressif.result.Result
@@ -16,6 +17,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 
 internal class UserRepositoryImpl(
     private val usersService: UsersService,
@@ -33,6 +35,10 @@ internal class UserRepositoryImpl(
                 }
             }
             .launchIn(scope)
+
+        scope.launch {
+            populateUserFromFirebase()
+        }
     }
 
     private val stateFlow = MutableStateFlow(getInitialAuthState())
@@ -63,6 +69,7 @@ internal class UserRepositoryImpl(
 
         return when (backendUserResult) {
             is Result.Success -> {
+                userCache.write(backendUserResult.data.toUser())
                 stateFlow.value = AuthState.SignedIn(backendUserResult.data.toUser())
                 Result.Success(Unit)
             }
@@ -76,6 +83,9 @@ internal class UserRepositoryImpl(
     ): Result<Unit, LoginError> {
         try {
             firebaseAuth.loginWithEmailAndPassword(email, password)
+        } catch (e: FirebaseAuthInvalidCredentialsException) {
+            Napier.e(e) { "Invalid credentials error while logging in" }
+            return Result.Failure(LoginError.InvalidCredentials)
         } catch (e: FirebaseAuthException) {
             Napier.e(e) { "Error while logging in" }
             return Result.Failure(LoginError.Unknown)
@@ -85,6 +95,7 @@ internal class UserRepositoryImpl(
 
         return when (backendUserResult) {
             is Result.Success -> {
+                userCache.write(backendUserResult.data.toUser())
                 stateFlow.value = AuthState.SignedIn(backendUserResult.data.toUser())
                 Result.Success(Unit)
             }
@@ -109,5 +120,18 @@ internal class UserRepositoryImpl(
     private fun getInitialAuthState(): AuthState {
         val user = userCache.read() ?: return AuthState.SignedOut
         return AuthState.SignedIn(user)
+    }
+
+    private suspend fun populateUserFromFirebase() {
+        // return if there's no signed-in user
+        firebaseAuth.user ?: return
+
+        when (val backendUserResult = usersService.getMe()) {
+            is Result.Success -> {
+                userCache.write(backendUserResult.data.toUser())
+                stateFlow.value = AuthState.SignedIn(backendUserResult.data.toUser())
+            }
+            is Result.Failure -> {}
+        }
     }
 }
