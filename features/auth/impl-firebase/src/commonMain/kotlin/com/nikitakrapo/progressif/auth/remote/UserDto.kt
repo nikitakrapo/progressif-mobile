@@ -8,13 +8,13 @@ import kotlinx.serialization.Serializable
 internal data class UserDto(
     @SerialName("userId") val userId: String,
     @SerialName("email") val email: String?,
-    @SerialName("displayName") val displayName: String?,
+    @SerialName("username") val username: String?,
     @SerialName("entitlements") val entitlements: List<String>,
 )
 
 internal fun UserDto.toUser(): User = User(
     id = userId,
     email = email,
-    displayName = displayName,
+    username = username,
     entitlements = entitlements,
 )

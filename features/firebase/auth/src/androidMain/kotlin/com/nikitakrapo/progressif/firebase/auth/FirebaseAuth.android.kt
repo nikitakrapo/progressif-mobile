@@ -2,6 +2,7 @@ package com.nikitakrapo.progressif.firebase.auth
 
 import com.nikitakrapo.progressif.firebase.auth.errors.FirebaseAuthException
 import com.nikitakrapo.progressif.firebase.auth.errors.FirebaseAuthInvalidCredentialsException
+import com.nikitakrapo.progressif.firebase.auth.errors.FirebaseAuthUserCollisionException
 import com.nikitakrapo.progressif.firebase.auth.errors.FirebaseAuthWeakPasswordException
 import com.nikitakrapo.progressif.firebase.auth.user.FirebaseUser
 import com.nikitakrapo.progressif.firebase.auth.user.toFirebaseUser
@@ -10,6 +11,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.tasks.await
 import com.google.firebase.auth.FirebaseAuth as AndroidFirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException as AndroidFirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.FirebaseAuthUserCollisionException as AndroidFirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException as AndroidFirebaseAuthWeakPasswordException
 
 actual object FirebaseAuth {
@@ -27,12 +29,15 @@ actual object FirebaseAuth {
         }
     }
 
+    @Throws(FirebaseAuthException::class)
     actual suspend fun createUserWithEmailAndPassword(email: String, password: String): FirebaseUser? {
         return try {
             androidAuth.createUserWithEmailAndPassword(email, password)
                 .await()
                 .user
                 ?.toFirebaseUser()
+        } catch (e: AndroidFirebaseAuthUserCollisionException) {
+            throw FirebaseAuthUserCollisionException(e.message)
         } catch (e: AndroidFirebaseAuthWeakPasswordException) {
             throw FirebaseAuthWeakPasswordException(e.reason)
         } catch (e: Exception) {
@@ -40,6 +45,7 @@ actual object FirebaseAuth {
         }
     }
 
+    @Throws(FirebaseAuthException::class)
     actual suspend fun loginWithEmailAndPassword(email: String, password: String): FirebaseUser? {
         return try {
             androidAuth.signInWithEmailAndPassword(email, password)
@@ -53,6 +59,7 @@ actual object FirebaseAuth {
         }
     }
 
+    @Throws(FirebaseAuthException::class)
     actual suspend fun signOut() {
         try {
             androidAuth.signOut()
@@ -61,6 +68,7 @@ actual object FirebaseAuth {
         }
     }
 
+    @Throws(FirebaseAuthException::class)
     actual suspend fun getIdToken(forceRefresh: Boolean): String? {
         return try {
             androidAuth.currentUser?.getIdToken(forceRefresh)?.await()?.token

@@ -25,6 +25,7 @@ internal fun PasswordField(
     password: String,
     onPasswordChange: (String) -> Unit,
     modifier: Modifier = Modifier,
+    error: String? = null,
     imeAction: ImeAction = ImeAction.Next,
 ) {
     var passwordMasked by remember { mutableStateOf(false) }
@@ -52,6 +53,8 @@ internal fun PasswordField(
             onClick = { passwordMasked = !passwordMasked },
             contentDescription = null,
         ),
+        isError = error != null,
+        supportingText = error,
         singleLine = true,
         modifier = modifier,
     )

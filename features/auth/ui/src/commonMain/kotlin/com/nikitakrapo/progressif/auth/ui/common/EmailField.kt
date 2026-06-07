@@ -15,6 +15,7 @@ internal fun EmailField(
     email: String,
     onEmailChange: (String) -> Unit,
     modifier: Modifier = Modifier,
+    error: String? = null,
     imeAction: ImeAction = ImeAction.Next,
 ) {
     TextField(
@@ -25,6 +26,8 @@ internal fun EmailField(
             keyboardType = KeyboardType.Email,
             imeAction = imeAction,
         ),
+        isError = error != null,
+        supportingText = error,
         singleLine = true,
         modifier = modifier,
     )

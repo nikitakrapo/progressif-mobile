@@ -9,13 +9,13 @@ import kotlinx.serialization.json.Json
 
 private const val CACHED_USER_KEY = "cached_user"
 
-class UserCache(
+internal class UserCache(
     private val settings: Settings,
 ) {
 
     private val json = Json { ignoreUnknownKeys = true }
 
-    internal fun read(firebaseUid: String): User? {
+    internal fun read(): User? {
         val raw = settings.getStringOrNull(CACHED_USER_KEY) ?: return null
         val cached = try {
             json.decodeFromString<CachedUser>(raw)
@@ -24,16 +24,11 @@ class UserCache(
             settings.remove(CACHED_USER_KEY)
             return null
         }
-        return if (cached.firebaseUid == firebaseUid) {
-            cached.toUser()
-        } else {
-            clear()
-            null
-        }
+        return cached.toUser()
     }
 
-    internal fun write(firebaseUid: String, user: User) {
-        settings.putString(CACHED_USER_KEY, json.encodeToString(user.toCached(firebaseUid)))
+    internal fun write(user: User) {
+        settings.putString(CACHED_USER_KEY, json.encodeToString(user.toCached()))
     }
 
     internal fun clear() {
@@ -43,24 +38,22 @@ class UserCache(
 
 @Serializable
 private data class CachedUser(
-    @SerialName("firebaseUid") val firebaseUid: String,
     @SerialName("id") val id: String,
     @SerialName("email") val email: String?,
-    @SerialName("displayName") val displayName: String?,
+    @SerialName("username") val username: String?,
     @SerialName("entitlements") val entitlements: List<String>,
 )
 
 private fun CachedUser.toUser() = User(
     id = id,
     email = email,
-    displayName = displayName,
+    username = username,
     entitlements = entitlements,
 )
 
-private fun User.toCached(firebaseUid: String) = CachedUser(
-    firebaseUid = firebaseUid,
+private fun User.toCached() = CachedUser(
     id = id,
     email = email,
-    displayName = displayName,
+    username = username,
     entitlements = entitlements,
 )

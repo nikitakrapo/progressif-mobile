@@ -49,6 +49,7 @@ class AuthenticationComponentImpl(
             Configuration.Registration -> {
                 val component = RegistrationComponentImpl(
                     componentContext = componentContext,
+                    navigateToLogin = { navigation.bringToFront(Configuration.Login) },
                     navigateBack = { navigation.pop() },
                 )
                 Child.Registration(component)

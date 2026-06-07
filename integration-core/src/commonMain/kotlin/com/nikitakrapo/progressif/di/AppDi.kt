@@ -1,5 +1,6 @@
 package com.nikitakrapo.progressif.di
 
+import com.nikitakrapo.progressif.auth.api.FirebaseAuthModule
 import com.nikitakrapo.progressif.kmp.ApplicationContext
 import org.koin.core.context.startKoin
 import org.koin.dsl.module
@@ -13,7 +14,7 @@ object AppDi {
                 SettingsModule,
                 LocaleModule,
                 NetworkModule,
-                AuthModule,
+                FirebaseAuthModule,
                 RepositoriesModule,
                 MviKotlinModule,
             )

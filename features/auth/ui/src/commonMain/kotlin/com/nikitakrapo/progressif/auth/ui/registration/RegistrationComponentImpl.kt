@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.StateFlow
 
 class RegistrationComponentImpl(
     componentContext: ComponentContext,
+    private val navigateToLogin: () -> Unit,
     private val navigateBack: () -> Unit,
     storeFactory: StoreFactory = Di.get(),
     userRepository: UserRepository = Di.get(),
@@ -25,10 +26,6 @@ class RegistrationComponentImpl(
 
     override val state: StateFlow<RegistrationState> = store.stateFlow
 
-    override fun onUsernameChange(value: String) {
-        store.accept(Intent.UsernameChanged(value))
-    }
-
     override fun onEmailChange(value: String) {
         store.accept(Intent.EmailChanged(value))
     }
@@ -39,6 +36,10 @@ class RegistrationComponentImpl(
 
     override fun onSubmitClick() {
         store.accept(Intent.Submit)
+    }
+
+    override fun onLoginClick() {
+        navigateToLogin()
     }
 
     override fun onBackClick() {

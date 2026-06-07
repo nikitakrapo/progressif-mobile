@@ -19,6 +19,6 @@ class TricksRepositoryImpl(
     override suspend fun getTricks(): Result<List<Trick>, FetchError> {
         return tricksService.getTricks()
             .mapSuccess { it.toTricks() }
-            .mapFailure { it.toFetchError() }
+            .mapFailure { it.toFetchError<Unit>() }
     }
 }

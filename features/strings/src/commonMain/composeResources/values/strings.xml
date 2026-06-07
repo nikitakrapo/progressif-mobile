@@ -32,7 +32,10 @@
     <string name="registration_title">Hey, let's sign you up</string>
     <string name="registration_submit_button_text">register</string>
     <string name="registration_error_invalid_email">invalid email</string>
+    <string name="registration_error_email_already_in_use">email is already in use</string>
     <string name="registration_error_weak_password">password is too weak</string>
+    <string name="registration_already_registered_cta">already registered?</string>
+    <string name="registration_already_registered_sign_in_label">SIGN IN</string>
 
     <string name="login_title">Login</string>
     <string name="login_submit_button_text">login</string>

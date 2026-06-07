@@ -1,6 +1,10 @@
 package com.nikitakrapo.progressif.firebase.auth.user
 
-data class FirebaseUser(
-    val uid: String,
-    val displayName: String,
-)
+import com.nikitakrapo.progressif.firebase.auth.errors.FirebaseAuthException
+
+expect class FirebaseUser {
+    val uid: String
+
+    @Throws(FirebaseAuthException::class)
+    suspend fun delete()
+}

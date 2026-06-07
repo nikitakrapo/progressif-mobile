@@ -1,5 +1,6 @@
 package com.nikitakrapo.progressif.auth.ui.registration
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
@@ -18,15 +19,18 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import com.nikitakrapo.progressf.strings.Res
+import com.nikitakrapo.progressf.strings.registration_already_registered_cta
+import com.nikitakrapo.progressf.strings.registration_already_registered_sign_in_label
 import com.nikitakrapo.progressf.strings.registration_submit_button_text
 import com.nikitakrapo.progressf.strings.registration_title
 import com.nikitakrapo.progressif.auth.ui.common.AuthUiTokens
 import com.nikitakrapo.progressif.auth.ui.common.EmailField
 import com.nikitakrapo.progressif.auth.ui.common.PasswordField
-import com.nikitakrapo.progressif.auth.ui.common.UsernameField
 import com.nikitakrapo.progressif.design.components.appbar.NavigationButtonConfig
 import com.nikitakrapo.progressif.design.components.appbar.TopAppBar
 import com.nikitakrapo.progressif.design.components.buttons.LargeButton
@@ -34,6 +38,8 @@ import com.nikitakrapo.progressif.design.components.screen.ScreenScaffold
 import com.nikitakrapo.progressif.design.theme.PreviewTheme
 import com.nikitakrapo.progressif.design.theme.ProgressifTheme
 import com.nikitakrapo.progressif.design.theme.spacing
+import com.nikitakrapo.progressif.design.utils.annotatedstring.buildAnnotatedString
+import com.nikitakrapo.progressif.strings.Text
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import org.jetbrains.compose.resources.stringResource
@@ -65,20 +71,7 @@ fun RegistrationScreen(
                         text = stringResource(Res.string.registration_title),
                         style = ProgressifTheme.typography.headlineMedium,
                         modifier = Modifier
-                            .widthIn(max = AuthUiTokens.MaxFieldWidth)
-                            .fillMaxWidth(),
-                    )
-
-                    Spacer(modifier = Modifier.height(ProgressifTheme.spacing.vertical.betweenComponents))
-                }
-
-                item {
-                    UsernameField(
-                        username = state.username,
-                        onUsernameChange = component::onUsernameChange,
-                        modifier = Modifier
-                            .widthIn(max = AuthUiTokens.MaxFieldWidth)
-                            .fillMaxWidth(),
+                            .registrationItemWidth(),
                     )
 
                     Spacer(modifier = Modifier.height(ProgressifTheme.spacing.vertical.betweenComponents))
@@ -88,9 +81,9 @@ fun RegistrationScreen(
                     EmailField(
                         email = state.email,
                         onEmailChange = component::onEmailChange,
+                        error = state.error?.emailError?.resolve(),
                         modifier = Modifier
-                            .widthIn(max = AuthUiTokens.MaxFieldWidth)
-                            .fillMaxWidth(),
+                            .registrationItemWidth(),
                     )
 
                     Spacer(modifier = Modifier.height(ProgressifTheme.spacing.vertical.betweenComponents))
@@ -101,9 +94,9 @@ fun RegistrationScreen(
                         password = state.password,
                         onPasswordChange = component::onPasswordChange,
                         imeAction = ImeAction.Done,
+                        error = state.error?.passwordError?.resolve(),
                         modifier = Modifier
-                            .widthIn(max = AuthUiTokens.MaxFieldWidth)
-                            .fillMaxWidth(),
+                            .registrationItemWidth(),
                     )
 
                     Spacer(modifier = Modifier.height(ProgressifTheme.spacing.vertical.componentToButton))
@@ -115,17 +108,32 @@ fun RegistrationScreen(
                         text = stringResource(Res.string.registration_submit_button_text),
                         enabled = state.submitButtonEnabled,
                         modifier = Modifier
-                            .widthIn(max = AuthUiTokens.MaxFieldWidth)
-                            .fillMaxWidth(),
+                            .registrationItemWidth(),
                     )
+                    if (state.error?.showLogInPrompt == true) {
+                        val loginLabel = buildAnnotatedString(
+                            stringResource(Res.string.registration_already_registered_cta) to null,
+                            " " to null,
+                            stringResource(Res.string.registration_already_registered_sign_in_label) to SpanStyle(fontWeight = FontWeight.Bold)
+                        )
+                        Spacer(modifier = Modifier.height(ProgressifTheme.spacing.vertical.buttonToText))
+                        Text(
+                            text = loginLabel,
+                            modifier = Modifier
+                                .clickable(onClick = component::onLoginClick),
+                        )
+                    }
                 }
             }
         },
     )
 }
 
-@Preview(widthDp = 720, heightDp = 360)
-@Preview(widthDp = 360, heightDp = 720)
+private fun Modifier.registrationItemWidth() = Modifier
+    .widthIn(max = AuthUiTokens.MaxFieldWidth)
+    .fillMaxWidth()
+
+@Preview
 @Composable
 private fun RegistrationScreenPreview() {
     PreviewTheme {
@@ -135,24 +143,40 @@ private fun RegistrationScreenPreview() {
     }
 }
 
-private fun PreviewRegistrationComponent() = object : RegistrationComponent {
+@Preview
+@Composable
+private fun RegistrationScreenErrorPreview() {
+    PreviewTheme {
+        RegistrationScreen(
+            component = PreviewRegistrationComponent(
+                error = RegistrationErrorState(
+                    emailError = Text.Raw("email already in use"),
+                    passwordError = null,
+                    generalError = null,
+                    showLogInPrompt = true,
+                )
+            ),
+        )
+    }
+}
+
+private fun PreviewRegistrationComponent(error: RegistrationErrorState? = null) = object : RegistrationComponent {
     override val state: StateFlow<RegistrationState> = MutableStateFlow(
         RegistrationState(
-            username = "kickflip",
             email = "cool@email.com",
             password = "password123",
             isLoading = false,
-            error = null,
+            error = error,
         )
     )
-
-    override fun onUsernameChange(value: String) {}
 
     override fun onEmailChange(value: String) {}
 
     override fun onPasswordChange(value: String) {}
 
     override fun onSubmitClick() {}
+
+    override fun onLoginClick() {}
 
     override fun onBackClick() {}
 }

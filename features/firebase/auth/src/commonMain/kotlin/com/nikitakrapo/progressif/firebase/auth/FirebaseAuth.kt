@@ -4,6 +4,7 @@ import com.nikitakrapo.progressif.firebase.auth.errors.FirebaseAuthException
 import com.nikitakrapo.progressif.firebase.auth.user.FirebaseUser
 import kotlinx.coroutines.flow.StateFlow
 
+// TODO: add tests
 expect object FirebaseAuth {
 
     val user: FirebaseUser?

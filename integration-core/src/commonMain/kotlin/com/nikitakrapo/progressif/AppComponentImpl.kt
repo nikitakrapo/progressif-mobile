@@ -61,7 +61,7 @@ class AppComponentImpl(
 
     private fun AuthState.toRootConfiguration(): Configuration = when (this) {
         is AuthState.SignedIn -> Configuration.ProgressionsList
-        else -> Configuration.Authentication
+        is AuthState.SignedOut -> Configuration.Authentication
     }
 
     private fun createChild(

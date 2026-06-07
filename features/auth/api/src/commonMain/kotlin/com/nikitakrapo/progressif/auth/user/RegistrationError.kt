@@ -1,10 +1,24 @@
 package com.nikitakrapo.progressif.auth.user
 
-sealed interface RegistrationError {
+data class RegistrationError(
+    val usernameError: UsernameError? = null,
+    val emailError: EmailError? = null,
+    val passwordError: PasswordError? = null,
+) {
 
-    data object InvalidEmail : RegistrationError
+    enum class UsernameError {
+        AlreadyInUse,
+        ;
+    }
 
-    data object WeakPassword : RegistrationError
+    enum class EmailError {
+        Invalid,
+        AlreadyInUse,
+        ;
+    }
 
-    data object Unknown : RegistrationError
+    enum class PasswordError {
+        Weak,
+        ;
+    }
 }

@@ -1,19 +1,34 @@
 package com.nikitakrapo.progressif.auth.remote
 
 import com.nikitakrapo.progressif.network.NetworkError
-import com.nikitakrapo.progressif.network.safeRequest
+import com.nikitakrapo.progressif.network.executeRequest
 import com.nikitakrapo.progressif.result.Result
 import io.ktor.client.HttpClient
 import io.ktor.client.request.get
+import io.ktor.client.request.patch
+import io.ktor.client.request.setBody
 
-class UsersService(
+internal class UsersService(
     private val httpClient: HttpClient,
 ) {
 
-    internal suspend fun getMe(): Result<UserDto, NetworkError> =
-        safeRequest<UserDto, NetworkError>(
+    suspend fun getMe(): Result<UserDto, NetworkError<Unit>> {
+        return executeRequest(
             request = {
-                httpClient.get("users/me")
+                httpClient.get("/users/me")
             },
         )
+    }
+
+    suspend fun updateUser(
+        updateUserDto: UpdateUserDto,
+    ): Result<UserDto, NetworkError<Unit>> {
+        return executeRequest(
+            request = {
+                httpClient.patch("/users"){
+                    setBody(updateUserDto)
+                }
+            },
+        )
+    }
 }

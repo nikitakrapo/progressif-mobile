@@ -9,7 +9,6 @@ import com.nikitakrapo.progressif.auth.user.UserRepository
 import com.nikitakrapo.progressf.strings.Res
 import com.nikitakrapo.progressf.strings.common_error_unknown
 import com.nikitakrapo.progressf.strings.profile_logout_item_text
-import com.nikitakrapo.progressif.profile.ProfileStore.Label
 import com.nikitakrapo.progressif.strings.Text
 import kotlinx.coroutines.launch
 
@@ -66,7 +65,7 @@ class ProfileStoreFactory(
 
 internal fun buildSections(user: User?): List<ProfileSection> = listOf(
     ProfileSection.Header(
-        displayName = user?.displayName ?: "",
+        displayName = user?.username ?: "",
     ),
     ProfileSection.Button(
         label = Text.StringRes(Res.string.profile_logout_item_text),

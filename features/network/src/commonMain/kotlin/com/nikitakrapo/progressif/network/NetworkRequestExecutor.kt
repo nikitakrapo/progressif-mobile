@@ -8,9 +8,9 @@ import io.ktor.client.statement.HttpResponse
 import io.ktor.http.isSuccess
 import io.ktor.util.network.UnresolvedAddressException
 
-suspend inline fun <reified T, reified E> safeRequest(
+suspend inline fun <reified T, reified E> executeRequest(
     request: () -> HttpResponse,
-): Result<T, NetworkError> {
+): Result<T, NetworkError<E>> {
     return try {
         val response = request()
 
@@ -19,19 +19,19 @@ suspend inline fun <reified T, reified E> safeRequest(
             Result.Success(successBody)
         } else {
             val errorBody = response.body<E>()
-            Result.Failure(NetworkError.ServerError(response.status.value, errorBody))
+            Result.Failure(NetworkError.Server(response.status.value, errorBody))
         }
     } catch (_: UnresolvedAddressException) {
-        val error = NetworkError.Connectivity
+        val error = NetworkError.Client.Connectivity<E>()
         Result.Failure(error)
     } catch (_: HttpRequestTimeoutException) {
-        val error = NetworkError.Timeout
+        val error = NetworkError.Client.Timeout<E>()
         Result.Failure(error)
     } catch (_: NoTransformationFoundException) {
-        val error = NetworkError.ParseError
+        val error = NetworkError.Client.Parse<E>()
         Result.Failure(error)
     } catch (e: Exception) {
-        val error = NetworkError.Unknown(e)
+        val error = NetworkError.Client.Unknown<E>(e)
         Result.Failure(error)
     }
 }
