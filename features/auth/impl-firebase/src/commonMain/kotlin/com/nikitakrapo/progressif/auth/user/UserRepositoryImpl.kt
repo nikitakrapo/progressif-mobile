@@ -9,6 +9,7 @@ import com.nikitakrapo.progressif.firebase.auth.errors.FirebaseAuthException
 import com.nikitakrapo.progressif.firebase.auth.errors.FirebaseAuthInvalidCredentialsException
 import com.nikitakrapo.progressif.firebase.auth.errors.FirebaseAuthUserCollisionException
 import com.nikitakrapo.progressif.firebase.auth.errors.FirebaseAuthWeakPasswordException
+import com.nikitakrapo.progressif.network.NetworkError
 import com.nikitakrapo.progressif.result.Result
 import io.github.aakira.napier.Napier
 import kotlinx.coroutines.CoroutineScope
@@ -129,7 +130,9 @@ internal class UserRepositoryImpl(
                 stateFlow.value = AuthState.SignedIn(patchUserResult.data.toUser())
                 Result.Success(Unit)
             }
-            is Result.Failure -> Result.Failure(PatchUserError.Unknown)
+            is Result.Failure -> {
+                patchUserResult.error.extractPatchUserError()
+            }
         }
     }
 
@@ -152,6 +155,23 @@ internal class UserRepositoryImpl(
                 stateFlow.value = AuthState.SignedIn(backendUserResult.data.toUser())
             }
             is Result.Failure -> {}
+        }
+    }
+
+    private fun NetworkError<UsersService.ErrorResponse>.extractPatchUserError(): Result.Failure<PatchUserError> {
+        return when (this) {
+            is NetworkError.Server -> {
+                val body = body ?: return Result.Failure(PatchUserError.Unknown)
+                when (body.code) {
+                    "users.username_taken" -> Result.Failure(PatchUserError.UsernameTaken)
+                    "users.username_invalid" -> Result.Failure(PatchUserError.UsernameInvalid(body.message))
+                    else -> Result.Failure(PatchUserError.Unknown)
+                }
+            }
+            is NetworkError.Client.Connectivity,
+            is NetworkError.Client.Parse,
+            is NetworkError.Client.Timeout,
+            is NetworkError.Client.Unknown -> Result.Failure(PatchUserError.Unknown)
         }
     }
 }

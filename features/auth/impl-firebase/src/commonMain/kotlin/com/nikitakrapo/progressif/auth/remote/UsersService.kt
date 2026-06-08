@@ -5,9 +5,10 @@ import com.nikitakrapo.progressif.network.executeRequest
 import com.nikitakrapo.progressif.result.Result
 import io.ktor.client.HttpClient
 import io.ktor.client.request.get
-import io.ktor.client.request.parameter
 import io.ktor.client.request.patch
 import io.ktor.client.request.setBody
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 internal class UsersService(
     private val httpClient: HttpClient,
@@ -24,14 +25,19 @@ internal class UsersService(
     suspend fun patchUser(
         userId: String,
         patchUserDto: PatchUserDto,
-    ): Result<UserDto, NetworkError<Unit>> {
+    ): Result<UserDto, NetworkError<ErrorResponse>> {
         return executeRequest(
             request = {
-                httpClient.patch("/users/{id}"){
-                    parameter("id", userId)
+                httpClient.patch("/users/$userId"){
                     setBody(patchUserDto)
                 }
             },
         )
     }
+
+    @Serializable
+    data class ErrorResponse(
+        @SerialName("code") val code: String,
+        @SerialName("message") val message: String,
+    )
 }

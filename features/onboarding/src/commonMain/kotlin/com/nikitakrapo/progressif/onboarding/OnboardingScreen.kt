@@ -64,6 +64,7 @@ fun OnboardingScreen(
                         onUsernameChange = component::onUsernameChange,
                         modifier = Modifier
                             .onboardingItemWidth(),
+                        error = state.usernameError?.resolve(),
                         imeAction = ImeAction.Done,
                     )
 
@@ -78,6 +79,13 @@ fun OnboardingScreen(
                         modifier = Modifier
                             .onboardingItemWidth(),
                     )
+                    state.generalError?.resolve()?.let {
+                        Spacer(modifier = Modifier.height(ProgressifTheme.spacing.vertical.buttonToText))
+                        Text(
+                            text = it,
+                            color = ProgressifTheme.colorScheme.error,
+                        )
+                    }
                 }
             }
         },

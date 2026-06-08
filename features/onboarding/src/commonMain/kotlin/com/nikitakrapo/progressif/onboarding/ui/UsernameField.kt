@@ -14,6 +14,7 @@ internal fun UsernameField(
     username: String,
     onUsernameChange: (String) -> Unit,
     modifier: Modifier = Modifier,
+    error: String? = null,
     imeAction: ImeAction = ImeAction.Next,
 ) {
     TextField(
@@ -23,6 +24,8 @@ internal fun UsernameField(
         keyboardOptions = KeyboardOptions(
             imeAction = imeAction,
         ),
+        isError = error != null,
+        supportingText = error,
         singleLine = true,
         modifier = modifier,
     )

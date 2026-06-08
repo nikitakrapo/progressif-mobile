@@ -56,12 +56,14 @@ internal class OnboardingStoreFactory(
                     )
                     is Msg.PatchFailed -> copy(
                         isLoading = false,
-                        usernameError = when (msg.patchUserError) {
+                        usernameError = when (val error = msg.patchUserError) {
                             PatchUserError.UsernameTaken -> Text.StringRes(Res.string.onboarding_username_taken)
+                            is PatchUserError.UsernameInvalid -> Text.Raw(error.message)
                             PatchUserError.Unknown -> null
                         },
                         generalError = when (msg.patchUserError) {
                             PatchUserError.UsernameTaken -> null
+                            is PatchUserError.UsernameInvalid -> null
                             PatchUserError.Unknown -> Text.StringRes(Res.string.error_unknown_message)
                         },
                     )
