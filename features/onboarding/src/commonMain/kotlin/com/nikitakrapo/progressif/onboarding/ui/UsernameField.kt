@@ -1,4 +1,4 @@
-package com.nikitakrapo.progressif.auth.ui.common
+package com.nikitakrapo.progressif.onboarding.ui
 
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
@@ -6,7 +6,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import com.nikitakrapo.progressf.strings.Res
 import com.nikitakrapo.progressf.strings.common_username
-import com.nikitakrapo.progressf.strings.common_username_visual_prefix
 import com.nikitakrapo.progressif.design.components.textfield.TextField
 import org.jetbrains.compose.resources.stringResource
 
@@ -21,7 +20,6 @@ internal fun UsernameField(
         value = username,
         onValueChange = onUsernameChange,
         label = stringResource(Res.string.common_username),
-        prefix = stringResource(Res.string.common_username_visual_prefix),
         keyboardOptions = KeyboardOptions(
             imeAction = imeAction,
         ),

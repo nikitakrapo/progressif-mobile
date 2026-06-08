@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -20,16 +19,14 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.nikitakrapo.progressf.strings.Res
-import com.nikitakrapo.progressf.strings.common_username
-import com.nikitakrapo.progressf.strings.common_username_visual_prefix
 import com.nikitakrapo.progressf.strings.onboarding_submit_button_text
 import com.nikitakrapo.progressf.strings.onboarding_title
 import com.nikitakrapo.progressif.design.components.buttons.LargeButton
 import com.nikitakrapo.progressif.design.components.screen.ScreenScaffold
-import com.nikitakrapo.progressif.design.components.textfield.TextField
 import com.nikitakrapo.progressif.design.theme.PreviewTheme
 import com.nikitakrapo.progressif.design.theme.ProgressifTheme
 import com.nikitakrapo.progressif.design.theme.spacing
+import com.nikitakrapo.progressif.onboarding.ui.UsernameField
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import org.jetbrains.compose.resources.stringResource
@@ -62,15 +59,12 @@ fun OnboardingScreen(
                 }
 
                 item {
-                    TextField(
-                        value = state.username,
-                        onValueChange = component::onUsernameChange,
-                        label = stringResource(Res.string.common_username),
-                        prefix = stringResource(Res.string.common_username_visual_prefix),
-                        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-                        singleLine = true,
+                    UsernameField(
+                        username = state.username,
+                        onUsernameChange = component::onUsernameChange,
                         modifier = Modifier
                             .onboardingItemWidth(),
+                        imeAction = ImeAction.Done,
                     )
 
                     Spacer(modifier = Modifier.height(ProgressifTheme.spacing.vertical.componentToButton))
@@ -107,8 +101,10 @@ private fun OnboardingScreenPreview() {
 private fun PreviewOnboardingComponent() = object : OnboardingComponent {
     override val state: StateFlow<OnboardingState> = MutableStateFlow(
         OnboardingState(
-            username = "skater_boy",
+            username = "patsan",
             isLoading = false,
+            usernameError = null,
+            generalError = null,
         )
     )
 

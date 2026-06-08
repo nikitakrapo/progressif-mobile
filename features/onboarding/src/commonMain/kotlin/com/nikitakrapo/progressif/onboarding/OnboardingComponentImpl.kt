@@ -4,6 +4,7 @@ import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.mvikotlin.core.instancekeeper.getStore
 import com.arkivanov.mvikotlin.core.store.StoreFactory
 import com.arkivanov.mvikotlin.extensions.coroutines.stateFlow
+import com.nikitakrapo.progressif.auth.user.UserRepository
 import com.nikitakrapo.progressif.di.Di
 import com.nikitakrapo.progressif.onboarding.OnboardingStore.Intent
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -13,11 +14,13 @@ import kotlinx.coroutines.flow.StateFlow
 class OnboardingComponentImpl(
     componentContext: ComponentContext,
     storeFactory: StoreFactory = Di.get(),
+    userRepository: UserRepository = Di.get(),
 ) : OnboardingComponent, ComponentContext by componentContext {
 
     private val store = instanceKeeper.getStore {
         OnboardingStoreFactory(
             storeFactory = storeFactory,
+            userRepository = userRepository,
         ).create()
     }
 

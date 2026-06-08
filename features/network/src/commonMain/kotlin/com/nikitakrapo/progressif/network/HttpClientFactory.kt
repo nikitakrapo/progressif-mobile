@@ -14,6 +14,7 @@ import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.request.header
+import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
@@ -41,6 +42,7 @@ class HttpClientFactory(
             install(DefaultRequest) {
                 url(networkConfig.baseUrl)
                 header(HttpHeaders.AcceptLanguage, userLocaleProvider.locale)
+                header(HttpHeaders.ContentType, ContentType.Application.Json)
             }
             install(HttpTimeout) {
                 requestTimeoutMillis = networkConfig.timeout.inWholeMilliseconds
