@@ -9,7 +9,7 @@ class BuildSectionsTest {
 
     @Test
     fun `with non-null user header displayName matches user displayName`() {
-        val sections = buildSections(User(id = "id", username = "Alice"))
+        val sections = buildSections(createUser())
         val header = sections.filterIsInstance<ProfileSection.Header>().first()
         assertEquals("Alice", header.displayName)
     }
@@ -23,7 +23,7 @@ class BuildSectionsTest {
 
     @Test
     fun `sections contain exactly one logout button`() {
-        val sections = buildSections(User(id = "id", username = "Name"))
+        val sections = buildSections(createUser())
         val logoutButtons = sections
             .filterIsInstance<ProfileSection.Button>()
             .filter { it.intent is ProfileStore.Intent.ShowLogoutConfirmation }
@@ -32,9 +32,17 @@ class BuildSectionsTest {
 
     @Test
     fun `header appears before logout button`() {
-        val sections = buildSections(User(id = "id", username = "Name"))
+        val sections = buildSections(createUser())
         val headerIndex = sections.indexOfFirst { it is ProfileSection.Header }
         val buttonIndex = sections.indexOfFirst { it is ProfileSection.Button }
         assertTrue(headerIndex < buttonIndex)
     }
+
+    private fun createUser() = User(
+        id = "id",
+        username = "Name",
+        email = "email@email.com",
+        entitlements = emptyList(),
+        passedOnboarding = true
+    )
 }

@@ -1,6 +1,7 @@
 package com.nikitakrapo.progressif.auth.user
 
 import com.nikitakrapo.progressif.auth.cache.UserCache
+import com.nikitakrapo.progressif.auth.remote.PatchUserDto
 import com.nikitakrapo.progressif.auth.remote.UsersService
 import com.nikitakrapo.progressif.auth.remote.toUser
 import com.nikitakrapo.progressif.firebase.auth.FirebaseAuth
@@ -117,9 +118,28 @@ internal class UserRepositoryImpl(
         return Result.Success(Unit)
     }
 
+    override suspend fun patchUser(username: String?): Result<Unit, PatchUserError> {
+        val user = getCurrentUser() ?: run {
+            Napier.e { "Called patchUser while not authorized" }
+            return Result.Failure(PatchUserError.Unknown)
+        }
+        val patchUserResult = usersService.patchUser(user.id, PatchUserDto(username))
+        return when (patchUserResult) {
+            is Result.Success -> {
+                stateFlow.value = AuthState.SignedIn(patchUserResult.data.toUser())
+                Result.Success(Unit)
+            }
+            is Result.Failure -> Result.Failure(PatchUserError.Unknown)
+        }
+    }
+
     private fun getInitialAuthState(): AuthState {
         val user = userCache.read() ?: return AuthState.SignedOut
         return AuthState.SignedIn(user)
+    }
+
+    private fun getCurrentUser(): User? {
+        return (stateFlow.value as? AuthState.SignedIn)?.user
     }
 
     private suspend fun populateUserFromFirebase() {

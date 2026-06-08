@@ -15,4 +15,6 @@ interface UserRepository {
     suspend fun login(email: String, password: String): Result<Unit, LoginError>
 
     suspend fun logout(): Result<Unit, LogoutError>
+
+    suspend fun patchUser(username: String?): Result<Unit, PatchUserError>
 }

@@ -42,6 +42,7 @@ private data class CachedUser(
     @SerialName("email") val email: String?,
     @SerialName("username") val username: String?,
     @SerialName("entitlements") val entitlements: List<String>,
+    @SerialName("passedOnboarding") val passedOnboarding: Boolean,
 )
 
 private fun CachedUser.toUser() = User(
@@ -49,6 +50,7 @@ private fun CachedUser.toUser() = User(
     email = email,
     username = username,
     entitlements = entitlements,
+    passedOnboarding = passedOnboarding,
 )
 
 private fun User.toCached() = CachedUser(
@@ -56,4 +58,5 @@ private fun User.toCached() = CachedUser(
     email = email,
     username = username,
     entitlements = entitlements,
+    passedOnboarding = passedOnboarding,
 )

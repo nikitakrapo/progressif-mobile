@@ -5,6 +5,7 @@ import com.nikitakrapo.progressif.network.executeRequest
 import com.nikitakrapo.progressif.result.Result
 import io.ktor.client.HttpClient
 import io.ktor.client.request.get
+import io.ktor.client.request.parameter
 import io.ktor.client.request.patch
 import io.ktor.client.request.setBody
 
@@ -20,13 +21,15 @@ internal class UsersService(
         )
     }
 
-    suspend fun updateUser(
-        updateUserDto: UpdateUserDto,
+    suspend fun patchUser(
+        userId: String,
+        patchUserDto: PatchUserDto,
     ): Result<UserDto, NetworkError<Unit>> {
         return executeRequest(
             request = {
-                httpClient.patch("/users"){
-                    setBody(updateUserDto)
+                httpClient.patch("/users/{id}"){
+                    parameter("id", userId)
+                    setBody(patchUserDto)
                 }
             },
         )

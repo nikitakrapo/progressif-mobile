@@ -2,6 +2,7 @@ package com.nikitakrapo.progressif
 
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.nikitakrapo.progressif.auth.ui.AuthenticationComponent
+import com.nikitakrapo.progressif.onboarding.OnboardingComponent
 import com.nikitakrapo.progressif.profile.ProfileComponent
 import com.nikitakrapo.progressif.progressions_list.ProgressionsListComponent
 import com.nikitakrapo.progressif.tricks.TricksComponent
@@ -26,5 +27,7 @@ interface AppComponent {
         data class Profile(val component: ProfileComponent) : Child
 
         data class Authentication(val component: AuthenticationComponent) : Child
+
+        data class Onboarding(val component: OnboardingComponent) : Child
     }
 }

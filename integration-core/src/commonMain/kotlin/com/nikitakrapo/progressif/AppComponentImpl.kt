@@ -12,6 +12,7 @@ import com.nikitakrapo.progressif.auth.user.AuthState
 import com.nikitakrapo.progressif.auth.user.UserRepository
 import com.nikitakrapo.progressif.decompose.asStateFlow
 import com.nikitakrapo.progressif.di.Di
+import com.nikitakrapo.progressif.onboarding.OnboardingComponentImpl
 import com.nikitakrapo.progressif.profile.ProfileComponentImpl
 import com.nikitakrapo.progressif.progressions_list.ProgressionsListComponentImpl
 import com.nikitakrapo.progressif.tricks.TricksComponentImpl
@@ -60,7 +61,11 @@ class AppComponentImpl(
     }
 
     private fun AuthState.toRootConfiguration(): Configuration = when (this) {
-        is AuthState.SignedIn -> Configuration.ProgressionsList
+        is AuthState.SignedIn -> if (user.passedOnboarding) {
+            Configuration.ProgressionsList
+        } else {
+            Configuration.Onboarding
+        }
         is AuthState.SignedOut -> Configuration.Authentication
     }
 
@@ -98,6 +103,12 @@ class AppComponentImpl(
                     componentContext = componentContext,
                 )
             )
+
+            Configuration.Onboarding -> AppComponent.Child.Onboarding(
+                OnboardingComponentImpl(
+                    componentContext = componentContext,
+                )
+            )
         }
 
     @Serializable
@@ -114,5 +125,8 @@ class AppComponentImpl(
 
         @Serializable
         data object Authentication : Configuration
+
+        @Serializable
+        data object Onboarding : Configuration
     }
 }

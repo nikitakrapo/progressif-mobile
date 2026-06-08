@@ -42,6 +42,9 @@
     <string name="login_error_unknown">something went wrong, please try again</string>
     <string name="login_error_invalid_credentials">invalid credentials</string>
 
+    <string name="onboarding_title">What should we call you?</string>
+    <string name="onboarding_submit_button_text">continue</string>
+
     <string name="profile_logout_item_text">logout</string>
     <string name="profile_logout_confirm_text">logout</string>
     <string name="profile_logout_dialog_title">log out?</string>

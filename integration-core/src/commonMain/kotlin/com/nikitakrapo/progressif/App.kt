@@ -17,6 +17,7 @@ import com.nikitakrapo.progressif.design.components.bottombar.BottomBar
 import com.nikitakrapo.progressif.design.components.bottombar.BottomBarItem
 import com.nikitakrapo.progressif.design.icon.icons
 import com.nikitakrapo.progressif.design.theme.ProgressifTheme
+import com.nikitakrapo.progressif.onboarding.OnboardingScreen
 import com.nikitakrapo.progressif.profile.ui.ProfileScreen
 import com.nikitakrapo.progressif.progressions_list.ProgressionsListScreen
 import com.nikitakrapo.progressif.tricks.TricksScreen
@@ -57,6 +58,10 @@ fun App(
                             is AppComponent.Child.Authentication -> AuthenticationScreen(
                                 instance.component,
                             )
+
+                            is AppComponent.Child.Onboarding -> OnboardingScreen(
+                                instance.component,
+                            )
                         }
                     },
                 )
@@ -94,6 +99,7 @@ fun App(
 
 private val AppComponent.Child.showBottomBar: Boolean get() = when (this) {
     is AppComponent.Child.Authentication -> false
+    is AppComponent.Child.Onboarding -> false
     is AppComponent.Child.Profile,
     is AppComponent.Child.Tricks,
     is AppComponent.Child.ProgressionsList -> true
