@@ -29,7 +29,11 @@ internal class UserRepositoryImpl(
 
     private val scope = CoroutineScope(Dispatchers.Default)
 
+    private val stateFlow = MutableStateFlow(getInitialAuthState())
+    override val state: StateFlow<AuthState> = stateFlow.asStateFlow()
+
     init {
+        // logout if firebase commands
         firebaseAuth.userFlow
             .onEach { firebaseUser ->
                 if (firebaseUser == null) {
@@ -38,13 +42,21 @@ internal class UserRepositoryImpl(
             }
             .launchIn(scope)
 
+        // refresh user
         scope.launch {
             populateUserFromFirebase()
         }
-    }
 
-    private val stateFlow = MutableStateFlow(getInitialAuthState())
-    override val state: StateFlow<AuthState> = stateFlow.asStateFlow()
+        // save user updates to cache
+        stateFlow
+            .onEach {
+                when (it) {
+                    is AuthState.SignedIn -> userCache.write(it.user)
+                    AuthState.SignedOut -> userCache.clear()
+                }
+            }
+            .launchIn(scope)
+    }
 
     override suspend fun register(
         email: String,
@@ -71,7 +83,6 @@ internal class UserRepositoryImpl(
 
         return when (backendUserResult) {
             is Result.Success -> {
-                userCache.write(backendUserResult.data.toUser())
                 stateFlow.value = AuthState.SignedIn(backendUserResult.data.toUser())
                 Result.Success(Unit)
             }
@@ -97,7 +108,6 @@ internal class UserRepositoryImpl(
 
         return when (backendUserResult) {
             is Result.Success -> {
-                userCache.write(backendUserResult.data.toUser())
                 stateFlow.value = AuthState.SignedIn(backendUserResult.data.toUser())
                 Result.Success(Unit)
             }
@@ -107,13 +117,12 @@ internal class UserRepositoryImpl(
 
     override suspend fun logout(): Result<Unit, LogoutError> {
         try {
-            userCache.clear()
             firebaseAuth.signOut()
+            // after this, the firebase user change event would be consumed
+            // and we should log out
         } catch (e: FirebaseAuthException) {
             Napier.e(e) { "Error while logging out" }
             return Result.Failure(LogoutError.Unknown)
-        } finally {
-            stateFlow.value = AuthState.SignedOut
         }
 
         return Result.Success(Unit)
@@ -151,7 +160,6 @@ internal class UserRepositoryImpl(
 
         when (val backendUserResult = usersService.getMe()) {
             is Result.Success -> {
-                userCache.write(backendUserResult.data.toUser())
                 stateFlow.value = AuthState.SignedIn(backendUserResult.data.toUser())
             }
             is Result.Failure -> {}
