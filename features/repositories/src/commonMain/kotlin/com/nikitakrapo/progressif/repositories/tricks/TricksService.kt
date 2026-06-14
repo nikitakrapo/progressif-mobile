@@ -17,4 +17,12 @@ internal class TricksService(
             },
         )
     }
+
+    suspend fun getTrickDetails(id: String): Result<TrickDetailsDto, NetworkError<Unit>> {
+        return executeRequest(
+            request = {
+                httpClient.get("tricks/$id")
+            },
+        )
+    }
 }

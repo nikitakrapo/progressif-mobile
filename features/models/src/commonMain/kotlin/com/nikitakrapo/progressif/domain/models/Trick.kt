@@ -1,6 +1,6 @@
 package com.nikitakrapo.progressif.domain.models
 
 data class Trick(
-    val slug: String,
+    val id: String,
     val name: String,
 )
